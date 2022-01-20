@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RangeTask
 {
@@ -25,7 +21,7 @@ namespace RangeTask
 
         public bool IsInside(double number)
         {
-            return number - From >= 0 && To - number >= 0;
+            return number >= From && number <= To;
         }
 
         public Range GetIntersection(Range range)
@@ -35,45 +31,42 @@ namespace RangeTask
                 return null;
             }
 
-            double from = range.From <= From ? From : range.From;
-            double to = range.To <= To ? range.To : To;
-
-            return new Range(from, to);
+            return new Range(Math.Max(From, range.From), Math.Min(To, range.To));
         }
 
         public Range[] GetUnion(Range range)
         {
             if (range.From > To || range.To < From)
             {
-                return new Range[] { this, range };
+                return new Range[] { new Range(From, To), new Range(range.From, range.To) };
             }
 
-            double from = range.From <= From ? range.From : From;
-            double to = range.To <= To ? To : range.To;
-
-            return new Range[] { new Range(from, to) };
+            return new Range[] { new Range(Math.Min(From, range.From), Math.Max(To, range.To)) };
         }
 
         public Range[] GetDifference(Range range)
         {
-            Range differenceRange1 = null;
-
-            Range differenceRange2 = null;
-
-            if (range.From < To && range.To > From)
+            if (range.From >= To || range.To <= From)
             {
-                if (From < range.From)
-                {
-                    differenceRange1 = new Range(From, range.From);
-                }
-
-                if (To > range.To)
-                {
-                    differenceRange2 = new Range(range.To, To);
-                }
+                return new Range[] { new Range(From, To) };
             }
 
-            return new Range[] { differenceRange1, differenceRange2 };
+            if (From < range.From)
+            {
+                if (To > range.To)
+                {
+                    return new Range[] { new Range(From, range.From), new Range(range.To, To) };
+                }
+
+                return new Range[] { new Range(From, range.From) };
+            }
+
+            if (To > range.To)
+            {
+                return new Range[] { new Range(range.To, To) };
+            }
+
+            return new Range[0];
         }
     }
 }
