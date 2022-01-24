@@ -43,5 +43,44 @@ namespace ShapesTask
         {
             return Math.Max(x1, Math.Max(x2, x3)) - Math.Min(x1, Math.Min(x2, x3));
         }
+
+        public override string ToString()
+        {
+            return $"треугольник со сторонами A = {sideA:f2} см, B = {sideB:f2} см, C = {sideC:f2} см";
+        }
+
+        public override int GetHashCode()
+        {
+            int prime = 37;
+            int hash = 1;
+
+            hash = prime * hash + x1.GetHashCode();
+            hash = prime * hash + y1.GetHashCode();
+            hash = prime * hash + x2.GetHashCode();
+            hash = prime * hash + y2.GetHashCode();
+            hash = prime * hash + x3.GetHashCode();
+            hash = prime * hash + y3.GetHashCode();
+
+            return hash;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(obj, this))
+            {
+                return true;
+            }
+
+            if (obj is null || obj.GetType() != GetType())
+            {
+                return false;
+            }
+
+            Triangle triangle = (Triangle)obj;
+
+            return x1 == triangle.x1 && y1 == triangle.y1 && 
+                   x2 == triangle.x2 && y2 == triangle.y2 &&
+                   x3 == triangle.x3 && y3 == triangle.y3;
+        }
     }
 }
