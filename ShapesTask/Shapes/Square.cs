@@ -2,7 +2,7 @@
 {
     class Square : IShape
     {
-        public double SideLength { get; private set; }
+        public double SideLength { get; }
 
         public Square(double sideLength)
         {

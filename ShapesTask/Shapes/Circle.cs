@@ -4,7 +4,7 @@ namespace ShapesTask.Shapes
 {
     class Circle : IShape
     {
-        public double Diameter { get; private set; }
+        public double Diameter { get; }
 
         public Circle(double radius)
         {

@@ -4,22 +4,22 @@ namespace ShapesTask.Shapes
 {
     class Triangle : IShape
     {
-        private double sideA;
-        private double sideB;
-        private double sideC;
-        private double halfPerimeter;
+        private readonly double sideA;
+        private readonly double sideB;
+        private readonly double sideC;
+        private readonly double halfPerimeter;
 
-        public double X1 { get; private set; }
+        public double X1 { get; }
 
-        public double Y1 { get; private set; }
+        public double Y1 { get; }
 
-        public double X2 { get; private set; }
+        public double X2 { get; }
 
-        public double Y2 { get; private set; }
+        public double Y2 { get; }
 
-        public double X3 { get; private set; }
+        public double X3 { get; }
 
-        public double Y3 { get; private set; }
+        public double Y3 { get; }
 
         public Triangle(double x1, double y1, double x2, double y2, double x3, double y3)
         {
@@ -36,8 +36,8 @@ namespace ShapesTask.Shapes
 
             halfPerimeter = (sideA + sideB + sideC) / 2;
         }
-
-        private double GetSideLength(double x1, double y1, double x2, double y2)
+        
+        private static double GetSideLength(double x1, double y1, double x2, double y2)
         {
             return Math.Sqrt(Math.Pow((x1 - x2), 2) + Math.Pow((y1 - y2), 2));
         }

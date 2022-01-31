@@ -2,9 +2,9 @@
 {
     class Rectangle : IShape
     {
-        public double Width { get; private set; }
+        public double Width { get; }
 
-        public double Height { get; private set; }
+        public double Height { get; }
 
         public Rectangle(double width, double height)
         {
