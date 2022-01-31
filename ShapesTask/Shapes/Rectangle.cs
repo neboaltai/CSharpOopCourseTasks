@@ -1,39 +1,40 @@
-﻿namespace ShapesTask
+﻿namespace ShapesTask.Shapes
 {
     class Rectangle : IShape
     {
-        private double width;
-        private double height;
+        public double Width { get; private set; }
+
+        public double Height { get; private set; }
 
         public Rectangle(double width, double height)
         {
-            this.width = width;
-            this.height = height;
+            Width = width;
+            Height = height;
         }
 
         public double GetArea()
         {
-            return width * height;
+            return Width * Height;
         }
 
         public double GetHeight()
         {
-            return height;
+            return Height;
         }
 
         public double GetPerimeter()
         {
-            return 2 * (width + height);
+            return 2 * (Width + Height);
         }
 
         public double GetWidth()
         {
-            return width;
+            return Width;
         }
 
         public override string ToString()
         {
-            return $"прямоугольник шириной {width} см, высотой {height} см";
+            return $"прямоугольник шириной {Width} см, высотой {Height} см";
         }
 
         public override int GetHashCode()
@@ -41,8 +42,8 @@
             int prime = 37;
             int hash = 1;
 
-            hash = prime * hash + width.GetHashCode();
-            hash = prime * hash + height.GetHashCode();
+            hash = prime * hash + Width.GetHashCode();
+            hash = prime * hash + Height.GetHashCode();
 
             return hash;
         }
@@ -61,7 +62,7 @@
 
             Rectangle rectangle = (Rectangle)obj;
 
-            return width == rectangle.width && height == rectangle.height;
+            return Width == rectangle.Width && Height == rectangle.Height;
         }
     }
 }

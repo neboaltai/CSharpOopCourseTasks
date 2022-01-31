@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.31911.196
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RangeTask", "RangeTask\RangeTask.csproj", "{79C4F32F-914E-4DA1-9F8C-0B0F88EAE11C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShapesTask", "ShapesTask\ShapesTask.csproj", "{A6317730-1460-48DE-B2C8-FDBDE9C10E8F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShapesTask", "ShapesTask\ShapesTask.csproj", "{A6317730-1460-48DE-B2C8-FDBDE9C10E8F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VectorTask", "VectorTask\VectorTask.csproj", "{976D112C-EE18-4FA0-A719-1D4A04DBF70A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{A6317730-1460-48DE-B2C8-FDBDE9C10E8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A6317730-1460-48DE-B2C8-FDBDE9C10E8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A6317730-1460-48DE-B2C8-FDBDE9C10E8F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{976D112C-EE18-4FA0-A719-1D4A04DBF70A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{976D112C-EE18-4FA0-A719-1D4A04DBF70A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{976D112C-EE18-4FA0-A719-1D4A04DBF70A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{976D112C-EE18-4FA0-A719-1D4A04DBF70A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

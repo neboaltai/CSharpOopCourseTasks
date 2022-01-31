@@ -1,39 +1,39 @@
 ﻿using System;
 
-namespace ShapesTask
+namespace ShapesTask.Shapes
 {
     class Circle : IShape
     {
-        private double diameter;
+        public double Diameter { get; private set; }
 
         public Circle(double radius)
         {
-            diameter = 2 * radius;
+            Diameter = 2 * radius;
         }
 
         public double GetArea()
         {
-            return Math.PI * Math.Pow(diameter / 2, 2);
+            return Math.PI * Math.Pow(Diameter / 2, 2);
         }
 
         public double GetHeight()
         {
-            return diameter;
+            return Diameter;
         }
 
         public double GetPerimeter()
         {
-            return Math.PI * diameter;
+            return Math.PI * Diameter;
         }
 
         public double GetWidth()
         {
-            return diameter;
+            return Diameter;
         }
 
         public override string ToString()
         {
-            return $"окружность диаметром {diameter} см";
+            return $"окружность диаметром {Diameter} см";
         }
 
         public override int GetHashCode()
@@ -41,7 +41,7 @@ namespace ShapesTask
             int prime = 37;
             int hash = 1;
 
-            hash = prime * hash + diameter.GetHashCode();
+            hash = prime * hash + Diameter.GetHashCode();
 
             return hash;
         }
@@ -60,7 +60,7 @@ namespace ShapesTask
 
             Circle circle = (Circle)obj;
 
-            return diameter == circle.diameter;
+            return Diameter == circle.Diameter;
         }
     }
 }
