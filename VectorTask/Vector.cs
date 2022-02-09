@@ -34,5 +34,10 @@ namespace VectorTask
         {
             return Components.Length;
         }
+
+        public override string ToString()
+        {
+            return $"{{ {string.Join(", ", Components)} }}";
+        }
     }
 }
