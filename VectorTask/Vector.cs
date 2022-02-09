@@ -39,5 +39,112 @@ namespace VectorTask
         {
             return $"{{ {string.Join(", ", Components)} }}";
         }
+
+        public void Add(Vector vector)
+        {
+            double[] additionComponents = new double[Math.Max(Components.Length, vector.Components.Length)];
+
+            for (int i = 0; i < vector.Components.Length; i++)
+            {
+                additionComponents[i] = vector.Components[i];
+            }
+
+            for (int i = 0; i < Components.Length; i++)
+            {
+                additionComponents[i] += Components[i];
+            }
+
+            Components = additionComponents;
+        }
+
+        public void Subtract(Vector vector)
+        {
+            Vector vectorCopy = new Vector(vector);
+
+            vectorCopy.Reverse();
+
+            Add(vectorCopy);
+        }
+
+        public void MultiplyScalar(double number)
+        {
+            for (int i = 0; i < Components.Length; i++)
+            {
+                Components[i] *= number;
+            }
+        }
+
+        public void Reverse()
+        {
+            for (int i = 0; i < Components.Length; i++)
+            {
+                Components[i] *= -1;
+            }
+        }
+
+        public double GetLength()
+        {
+            double componentSquaresSum = 0;
+
+            for (int i = 0; i < Components.Length; i++)
+            {
+                componentSquaresSum += Math.Pow(Components[i], 2);
+            }
+
+            return Math.Sqrt(componentSquaresSum);
+        }
+
+        public double GetComponent(int index)
+        {
+            return Components[index];
+        }
+
+        public void SetComponent(int index, double component)
+        {
+            Components[index] = component;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(obj, this))
+            {
+                return true;
+            }
+
+            if (obj is null || obj.GetType() != GetType())
+            {
+                return false;
+            }
+
+            Vector vector = (Vector)obj;
+
+            if (Components.Length == vector.Components.Length)
+            {
+                for (int i = 0; i < Components.Length; i++)
+                {
+                    if (Components[i] != vector.Components[i])
+                    {
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            int prime = 38;
+            int hash = 1;
+
+            foreach (double e in Components)
+            {
+                hash = prime * hash + e.GetHashCode();
+            }
+
+            return hash;
+        }
     }
 }
