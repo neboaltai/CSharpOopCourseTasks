@@ -29,5 +29,10 @@ namespace VectorTask
                 }
             }
         }
+
+        public int GetSize()
+        {
+            return Components.Length;
+        }
     }
 }
