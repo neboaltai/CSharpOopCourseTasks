@@ -146,5 +146,35 @@ namespace VectorTask
 
             return hash;
         }
+
+        public static Vector GetAdditionVector(Vector vector1, Vector vector2)
+        {
+            Vector additionVector = new Vector(vector1);
+
+            additionVector.Add(vector2);
+
+            return additionVector;
+        }
+
+        public static Vector GetSubtrationVector(Vector vector1, Vector vector2)
+        {
+            Vector subtractionVector = new Vector(vector1);
+
+            subtractionVector.Subtract(vector2);
+
+            return subtractionVector;
+        }
+
+        public static double GetDotProduct(Vector vector1, Vector vector2)
+        {
+            double result = 0;
+
+            for (int i = 0; i < Math.Min(vector1.Components.Length, vector2.Components.Length); i++)
+            {
+                result += vector1.Components[i] * vector2.Components[i];
+            }
+
+            return result;
+        }
     }
 }
