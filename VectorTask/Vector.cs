@@ -6,24 +6,24 @@ namespace VectorTask
     {
         private double[] components;
 
-        public Vector(int dimension) : this(dimension, null) { }
+        public Vector(int size) : this(size, null) { }
 
         public Vector(double[] components) : this(components.Length, components) { }
 
         public Vector(Vector vector) : this(vector.components.Length, vector.components) { }
 
-        public Vector(int dimension, double[] components)
+        public Vector(int size, double[] components)
         {
-            if (dimension <= 0)
+            if (size <= 0)
             {
-                throw new ArgumentException($"Parameter value {dimension} is invalid. The count of components must be > 0", nameof(dimension));
+                throw new ArgumentException($"Parameter value {size} is invalid. The count of components must be > 0", nameof(size));
             }
 
-            this.components = new double[dimension];
+            this.components = new double[size];
 
             if (components != null && components.Length != 0)
             {
-                Array.Copy(components, this.components, Math.Min(dimension, components.Length));
+                Array.Copy(components, this.components, Math.Min(size, components.Length));
             }
         }
 
@@ -162,9 +162,9 @@ namespace VectorTask
         public static double GetDotProduct(Vector vector1, Vector vector2)
         {
             double result = 0;
-            double minComponentsLength = Math.Min(vector1.components.Length, vector2.components.Length);
+            double minVectorSize = Math.Min(vector1.components.Length, vector2.components.Length);
 
-            for (int i = 0; i < minComponentsLength; i++)
+            for (int i = 0; i < minVectorSize; i++)
             {
                 result += vector1.components[i] * vector2.components[i];
             }
