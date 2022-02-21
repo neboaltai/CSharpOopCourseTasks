@@ -6,9 +6,7 @@ namespace VectorTask
     {
         static void Main(string[] args)
         {
-            Vector vector0 = new Vector(5);
-
-            Vector vector1 = new Vector(vector0);
+            Vector vector1 = new Vector(new Vector(5));
 
             double temp = vector1.GetComponent(0);
 
@@ -18,8 +16,8 @@ namespace VectorTask
             Vector vector2 = new Vector(new double[] { -3, 5, 8 });
 
             Console.WriteLine("Заданы:");
-            Console.WriteLine($"- {vector1.GetSize()}-размерный вектор v1 = {vector1}");
-            Console.WriteLine($"- {vector2.GetSize()}-размерный вектор v2 = {vector2}");
+            Console.WriteLine($"- {vector1.GetSize()}-мерный вектор v1 = {vector1}");
+            Console.WriteLine($"- {vector2.GetSize()}-мерный вектор v2 = {vector2}");
 
             Console.WriteLine("Вычислить и найти длину вектора: -(6 * (v1 + v2) - v2)");
             Console.WriteLine();
@@ -30,7 +28,7 @@ namespace VectorTask
             Console.WriteLine(vector1);
 
             Console.Write("2. Умножение вектора(1) на скалярную величину: 6 * (v1 + v2) = ");
-            vector1.MultiplyScalar(6);
+            vector1.MultiplyByScalar(6);
             Console.WriteLine(vector1);
 
             Console.Write("3. Вычитание вектора v2 из вектора(2): 6 * (v1 + v2) - v2 = ");
@@ -51,11 +49,11 @@ namespace VectorTask
 
             Console.WriteLine();
             Console.Write("Вектор v3 = v1 + v2 = ");
-            Vector vector3 = Vector.GetAdditionVector(resultVector, vector2);
+            Vector vector3 = Vector.GetSum(resultVector, vector2);
             Console.WriteLine(vector3);
 
             Console.Write("Вектор v4 = v1 - v2 = ");
-            Vector vector4 = Vector.GetSubtrationVector(resultVector, vector2);
+            Vector vector4 = Vector.GetDifference(resultVector, vector2);
             Console.WriteLine(vector4);
 
             Console.Write("Длина вектора v5: v1 * v2 = ");

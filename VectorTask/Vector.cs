@@ -2,93 +2,87 @@
 
 namespace VectorTask
 {
-    class Vector
+    public class Vector
     {
-        public double[] Components { get; private set; }
+        private double[] components;
 
         public Vector(int dimension) : this(dimension, null) { }
 
         public Vector(double[] components) : this(components.Length, components) { }
 
-        public Vector(Vector vector) : this(vector.Components.Length, vector.Components) { }
+        public Vector(Vector vector) : this(vector.components.Length, vector.components) { }
 
         public Vector(int dimension, double[] components)
         {
             if (dimension <= 0)
             {
-                throw new ArgumentException("the count of components must be > 0", nameof(dimension));
+                throw new ArgumentException($"Parameter value {dimension} is invalid. The count of components must be > 0", nameof(dimension));
             }
 
-            Components = new double[dimension];
+            this.components = new double[dimension];
 
             if (components != null && components.Length != 0)
             {
-                for (int i = 0; i < components.Length; i++)
-                {
-                    Components[i] = components[i];
-                }
+                Array.Copy(components, this.components, Math.Min(dimension, components.Length));
             }
         }
 
         public int GetSize()
         {
-            return Components.Length;
+            return components.Length;
         }
 
         public override string ToString()
         {
-            return $"{{ {string.Join(", ", Components)} }}";
+            return $"{{{string.Join(", ", components)}}}";
         }
 
         public void Add(Vector vector)
         {
-            double[] additionComponents = new double[Math.Max(Components.Length, vector.Components.Length)];
-
-            for (int i = 0; i < vector.Components.Length; i++)
+            if (vector.components.Length > components.Length)
             {
-                additionComponents[i] = vector.Components[i];
+                Array.Resize(ref components, vector.components.Length);
             }
 
-            for (int i = 0; i < Components.Length; i++)
+            for (int i = 0; i < vector.components.Length; i++)
             {
-                additionComponents[i] += Components[i];
+                components[i] += vector.components[i];
             }
-
-            Components = additionComponents;
         }
 
         public void Subtract(Vector vector)
         {
-            Vector vectorCopy = new Vector(vector);
+            if (vector.components.Length > components.Length)
+            {
+                Array.Resize(ref components, vector.components.Length);
+            }
 
-            vectorCopy.Reverse();
-
-            Add(vectorCopy);
+            for (int i = 0; i < vector.components.Length; i++)
+            {
+                components[i] -= vector.components[i];
+            }
         }
 
-        public void MultiplyScalar(double number)
+        public void MultiplyByScalar(double number)
         {
-            for (int i = 0; i < Components.Length; i++)
+            for (int i = 0; i < components.Length; i++)
             {
-                Components[i] *= number;
+                components[i] *= number;
             }
         }
 
         public void Reverse()
         {
-            for (int i = 0; i < Components.Length; i++)
-            {
-                Components[i] *= -1;
-            }
+            MultiplyByScalar(-1);
         }
 
         public double GetLength()
         {
             double componentSquaresSum = 0;
 
-            for (int i = 0; i < Components.Length; i++)
+            foreach (double component in components)
             {
-                componentSquaresSum += Math.Pow(Components[i], 2);
+                componentSquaresSum += component * component;
             }
 
             return Math.Sqrt(componentSquaresSum);
@@ -96,12 +90,12 @@ namespace VectorTask
 
         public double GetComponent(int index)
         {
-            return Components[index];
+            return components[index];
         }
 
         public void SetComponent(int index, double component)
         {
-            Components[index] = component;
+            components[index] = component;
         }
 
         public override bool Equals(object obj)
@@ -118,28 +112,28 @@ namespace VectorTask
 
             Vector vector = (Vector)obj;
 
-            if (Components.Length == vector.Components.Length)
+            if (components.Length != vector.components.Length)
             {
-                for (int i = 0; i < Components.Length; i++)
-                {
-                    if (Components[i] != vector.Components[i])
-                    {
-                        return false;
-                    }
-                }
-
-                return true;
+                return false;
             }
 
-            return false;
+            for (int i = 0; i < components.Length; i++)
+            {
+                if (components[i] != vector.components[i])
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         public override int GetHashCode()
         {
-            int prime = 38;
+            int prime = 17;
             int hash = 1;
 
-            foreach (double e in Components)
+            foreach (double e in components)
             {
                 hash = prime * hash + e.GetHashCode();
             }
@@ -147,31 +141,32 @@ namespace VectorTask
             return hash;
         }
 
-        public static Vector GetAdditionVector(Vector vector1, Vector vector2)
+        public static Vector GetSum(Vector vector1, Vector vector2)
         {
-            Vector additionVector = new Vector(vector1);
+            Vector result = new Vector(vector1);
 
-            additionVector.Add(vector2);
+            result.Add(vector2);
 
-            return additionVector;
+            return result;
         }
 
-        public static Vector GetSubtrationVector(Vector vector1, Vector vector2)
+        public static Vector GetDifference(Vector vector1, Vector vector2)
         {
-            Vector subtractionVector = new Vector(vector1);
+            Vector result = new Vector(vector1);
 
-            subtractionVector.Subtract(vector2);
+            result.Subtract(vector2);
 
-            return subtractionVector;
+            return result;
         }
 
         public static double GetDotProduct(Vector vector1, Vector vector2)
         {
             double result = 0;
+            double minComponentsLength = Math.Min(vector1.components.Length, vector2.components.Length);
 
-            for (int i = 0; i < Math.Min(vector1.Components.Length, vector2.Components.Length); i++)
+            for (int i = 0; i < minComponentsLength; i++)
             {
-                result += vector1.Components[i] * vector2.Components[i];
+                result += vector1.components[i] * vector2.components[i];
             }
 
             return result;
