@@ -154,5 +154,13 @@ namespace MatrixTask
 
             rowsArray = transposedMatrix.rowsArray;
         }
+
+        public void MultiplyByScalar(double number)
+        {
+            for (int i = 0; i < rowsArray.Length; i++)
+            {
+                rowsArray[i].MultiplyByScalar(number);
+            }
+        }
     }
 }
