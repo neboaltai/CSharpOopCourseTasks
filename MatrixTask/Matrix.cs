@@ -227,5 +227,28 @@ namespace MatrixTask
 
             return result;
         }
+
+        public void Add(Matrix matrix)
+        {
+            if (matrix is null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            if (rowsArray.Length != matrix.rowsArray.Length)
+            {
+                throw new ArgumentException($"Parameter value {matrix.rowsArray.Length} is invalid. The count of rows should be the same as the original");
+            }
+
+            if (rowsArray[0].GetSize() != matrix.rowsArray[0].GetSize())
+            {
+                throw new ArgumentException($"Parameter value {matrix.rowsArray[0].GetSize()} is invalid. The count of columns should be the same as the original");
+            }
+
+            for (int i = 0; i < rowsArray.Length; i++)
+            {
+                rowsArray[i].Add(matrix.rowsArray[i]);
+            }
+        }
     }
 }
