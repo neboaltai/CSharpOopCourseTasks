@@ -96,5 +96,15 @@ namespace MatrixTask
         {
             return new int[] { rowsArray.Length, rowsArray[0].GetSize() };
         }
+
+        public Vector GetRow(int index)
+        {
+            if (index < 0 || index >= rowsArray.Length)
+            {
+                throw new ArgumentOutOfRangeException($"Parameter value {index} is invalid. The index must be within the bound of the array", nameof(index));
+            }
+
+            return rowsArray[index];
+        }
     }
 }
