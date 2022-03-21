@@ -106,5 +106,22 @@ namespace MatrixTask
 
             return rowsArray[index];
         }
+
+        public void SetRow(int index, Vector vector)
+        {
+            if (index < 0 || index >= rowsArray.Length)
+            {
+                throw new ArgumentOutOfRangeException($"Parameter value {index} is invalid. The index must be within the bound of the array", nameof(index));
+            }
+
+            if (vector.GetSize() > rowsArray[index].GetSize())
+            {
+                throw new ArgumentException($"Parameter value {vector} is invalid. Vector size must be less than or equal to the size of the row", nameof(vector));
+            }
+
+            rowsArray[index] = new Vector(rowsArray.Length);
+
+            rowsArray[index].Add(vector);
+        }
     }
 }
