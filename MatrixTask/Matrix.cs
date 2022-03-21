@@ -282,5 +282,14 @@ namespace MatrixTask
 
             return result;
         }
+
+        public static Matrix GetDifference(Matrix matrix1, Matrix matrix2)
+        {
+            Matrix result = new Matrix(matrix1);
+
+            result.Subtract(matrix2);
+
+            return result;
+        }
     }
 }
