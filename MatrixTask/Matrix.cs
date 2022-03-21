@@ -162,5 +162,48 @@ namespace MatrixTask
                 rowsArray[i].MultiplyByScalar(number);
             }
         }
+
+        public double GetDeterminant()
+        {
+            if (rowsArray.Length != rowsArray[0].GetSize())
+            {
+                throw new RankException($"Matrix is not sqaure. The number of rows ({rowsArray.Length}) must be equal to the number of columns ({rowsArray[0].GetSize()})");
+            }
+
+            double determinant = 1;
+
+            double[,] matrixA = new double[rowsArray.Length, rowsArray.Length];
+            double[,] matrixB = new double[rowsArray.Length, rowsArray.Length];
+
+            for (int i = 0; i < rowsArray.Length; i++)
+            {
+                for (int j = 0; j < rowsArray.Length; j++)
+                {
+                    if (i >= j)
+                    {
+                        matrixA[i, j] = rowsArray[i].GetComponent(j);
+
+                        for (int k = 0; k < j; k++)
+                        {
+                            matrixA[i, j] -= matrixA[i, k] * matrixB[k, j];
+                        }
+                    }
+
+                    if (i <= j && matrixA[i, i] != 0)
+                    {
+                        matrixB[i, j] = rowsArray[i].GetComponent(j) / matrixA[i, i];
+
+                        for (int k = 0; k < i; k++)
+                        {
+                            matrixB[i, j] -= matrixA[i, k] * matrixB[k, j] / matrixA[i, i];
+                        }
+                    }
+                }
+
+                determinant *= matrixA[i, i];
+            }
+
+            return determinant;
+        }
     }
 }
