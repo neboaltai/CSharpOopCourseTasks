@@ -205,5 +205,10 @@ namespace MatrixTask
 
             return determinant;
         }
+
+        public override string ToString()
+        {
+            return $"{{{string.Join<Vector>(", ", rowsArray)}}}";
+        }
     }
 }
