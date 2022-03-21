@@ -140,5 +140,19 @@ namespace MatrixTask
 
             return result;
         }
+
+        public void Transpose()
+        {
+            Matrix transposedMatrix = new Matrix(rowsArray[0].GetSize(), rowsArray.Length);
+
+            int[] transposedMatrixSize = transposedMatrix.GetSizes();
+
+            for (int i = 0; i < transposedMatrixSize[0]; i++)
+            {
+                transposedMatrix.SetRow(i, GetColumn(i));
+            }
+
+            rowsArray = transposedMatrix.rowsArray;
+        }
     }
 }
