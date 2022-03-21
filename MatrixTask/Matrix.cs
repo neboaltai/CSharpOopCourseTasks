@@ -210,5 +210,22 @@ namespace MatrixTask
         {
             return $"{{{string.Join<Vector>(", ", rowsArray)}}}";
         }
+
+        public Vector MultiplyByVector(Vector vector)
+        {
+            if (vector is null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            Vector result = new Vector(rowsArray.Length);
+
+            for (int i = 0; i < rowsArray.Length; i++)
+            {
+                result.SetComponent(i, Vector.GetDotProduct(rowsArray[i], vector));
+            }
+
+            return result;
+        }
     }
 }
