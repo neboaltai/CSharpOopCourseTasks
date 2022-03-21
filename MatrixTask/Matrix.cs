@@ -291,5 +291,30 @@ namespace MatrixTask
 
             return result;
         }
+
+        public static Matrix GetProduct(Matrix matrix1, Matrix matrix2)
+        {
+            if (matrix1 is null || matrix2 is null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            if (matrix1.rowsArray[0].GetSize() != matrix2.rowsArray.Length)
+            {
+                throw new ArgumentException($"The count of columns ({matrix1.rowsArray[0].GetSize()}) of the first matrix must be equal to the number of rows ({matrix2.rowsArray.Length}) of the second matrix");
+            }
+
+            double[,] result = new double[matrix1.rowsArray.Length, matrix2.rowsArray[0].GetSize()];
+
+            for (int i = 0; i < result.GetLength(0); i++)
+            {
+                for (int j = 0; j < result.GetLength(1); j++)
+                {
+                    result[i, j] = Vector.GetDotProduct(matrix1.rowsArray[i], matrix2.GetColumn(j));
+                }
+            }
+
+            return new Matrix(result);
+        }
     }
 }
