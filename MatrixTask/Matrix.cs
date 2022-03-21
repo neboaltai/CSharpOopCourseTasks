@@ -91,5 +91,10 @@ namespace MatrixTask
                 rowsArray[i] = new Vector(matrix.rowsArray[i]);
             }
         }
+
+        public int[] GetSizes()
+        {
+            return new int[] { rowsArray.Length, rowsArray[0].GetSize() };
+        }
     }
 }
