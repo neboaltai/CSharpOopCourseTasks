@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShapesTask", "ShapesTask\Sh
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VectorTask", "VectorTask\VectorTask.csproj", "{976D112C-EE18-4FA0-A719-1D4A04DBF70A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MatrixTask", "MatrixTask\MatrixTask.csproj", "{43F29EBF-B981-46B1-B8EA-86A5391BADA5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MatrixTask", "MatrixTask\MatrixTask.csproj", "{43F29EBF-B981-46B1-B8EA-86A5391BADA5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CsvToHtmlConverter", "CsvToHtmlConverter\CsvToHtmlConverter.csproj", "{212E4A92-DD09-43DC-A9E6-BD36D43D9D42}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{43F29EBF-B981-46B1-B8EA-86A5391BADA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{43F29EBF-B981-46B1-B8EA-86A5391BADA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{43F29EBF-B981-46B1-B8EA-86A5391BADA5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{212E4A92-DD09-43DC-A9E6-BD36D43D9D42}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{212E4A92-DD09-43DC-A9E6-BD36D43D9D42}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{212E4A92-DD09-43DC-A9E6-BD36D43D9D42}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{212E4A92-DD09-43DC-A9E6-BD36D43D9D42}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
