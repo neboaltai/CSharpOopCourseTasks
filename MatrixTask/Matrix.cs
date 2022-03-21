@@ -273,5 +273,14 @@ namespace MatrixTask
                 rowsArray[i].Subtract(matrix.rowsArray[i]);
             }
         }
+
+        public static Matrix GetSum(Matrix matrix1, Matrix matrix2)
+        {
+            Matrix result = new Matrix(matrix1);
+
+            result.Add(matrix2);
+
+            return result;
+        }
     }
 }
