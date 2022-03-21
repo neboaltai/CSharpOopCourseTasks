@@ -123,5 +123,22 @@ namespace MatrixTask
 
             rowsArray[index].Add(vector);
         }
+
+        public Vector GetColumn(int index)
+        {
+            if (index < 0 || index >= rowsArray[0].GetSize())
+            {
+                throw new ArgumentOutOfRangeException($"Parameter value {index} is invalid. The index must be within the bound of the array", nameof(index));
+            }
+
+            Vector result = new Vector(rowsArray.Length);
+
+            for (int i = 0; i < rowsArray.Length; i++)
+            {
+                result.SetComponent(i, rowsArray[i].GetComponent(index));
+            }
+
+            return result;
+        }
     }
 }
