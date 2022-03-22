@@ -43,6 +43,20 @@ namespace ArrayListHome
             Console.WriteLine();
             Console.WriteLine("2. Список нечётных чисел:");
             Console.WriteLine(string.Join(", ", integerList));
+
+            List<int> dictinctIntegerList = new List<int>();
+
+            for (int i = 0; i < integerList.Count; i++)
+            {
+                if (!dictinctIntegerList.Contains(integerList[i]))
+                {
+                    dictinctIntegerList.Add(integerList[i]);
+                }
+            }
+
+            Console.WriteLine();
+            Console.WriteLine("3. Список уникальных чисел:");
+            Console.WriteLine(string.Join(", ", dictinctIntegerList));
         }
     }
 }
