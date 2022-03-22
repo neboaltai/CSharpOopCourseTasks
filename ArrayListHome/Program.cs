@@ -29,6 +29,20 @@ namespace ArrayListHome
                 Console.WriteLine("The file could not be read:");
                 Console.WriteLine(e);
             }
+
+            List<int> integerList = new List<int> { 1, 2, 3, 4, 5, 5, 6, 3, 7, 1, 8, 9, 0 };
+
+            for (int i = 0; i < integerList.Count; i++)
+            {
+                if (integerList[i] % 2 == 0)
+                {
+                    integerList.RemoveAt(i);
+                }
+            }
+
+            Console.WriteLine();
+            Console.WriteLine("2. Список нечётных чисел:");
+            Console.WriteLine(string.Join(", ", integerList));
         }
     }
 }
