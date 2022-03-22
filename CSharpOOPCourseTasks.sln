@@ -15,6 +15,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CsvToHtmlConverter", "CsvTo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArrayListHome", "ArrayListHome\ArrayListHome.csproj", "{B41BA0BF-A17F-4D44-8583-E9F10AAEBDE3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ListTask", "ListTask\ListTask.csproj", "{668B8F31-4DBE-42FD-A413-F7482697909A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{B41BA0BF-A17F-4D44-8583-E9F10AAEBDE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B41BA0BF-A17F-4D44-8583-E9F10AAEBDE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B41BA0BF-A17F-4D44-8583-E9F10AAEBDE3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{668B8F31-4DBE-42FD-A413-F7482697909A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{668B8F31-4DBE-42FD-A413-F7482697909A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{668B8F31-4DBE-42FD-A413-F7482697909A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{668B8F31-4DBE-42FD-A413-F7482697909A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
