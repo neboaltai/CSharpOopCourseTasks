@@ -19,5 +19,10 @@ namespace ListTask
                 Count++;
             }
         }
+
+        public T GetFirstValue()
+        {
+            return Head.Data;
+        }
     }
 }
