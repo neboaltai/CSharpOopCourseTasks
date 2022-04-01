@@ -232,5 +232,26 @@ namespace ListTask
                 currentNode.Next = previousNode;
             }
         }
+
+        public SinglyLinkedList<T> Copy()
+        {
+            if (Head is null)
+            {
+                return new SinglyLinkedList<T>();
+            }
+
+            SinglyLinkedListNode<T> resultNode = new SinglyLinkedListNode<T>(Head.Data);
+
+            SinglyLinkedList<T> result = new SinglyLinkedList<T>(resultNode);
+
+            for (SinglyLinkedListNode<T> node = Head.Next; node != null; node = node.Next)
+            {
+                resultNode.Next = new SinglyLinkedListNode<T>(node.Data);
+
+                resultNode = resultNode.Next;
+            }
+
+            return result;
+        }
     }
 }
