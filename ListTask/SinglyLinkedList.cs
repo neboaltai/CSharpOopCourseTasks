@@ -110,5 +110,14 @@ namespace ListTask
 
             return value;
         }
+
+        public void AddFirst(SinglyLinkedListNode<T> node)
+        {
+            node.Next = Head;
+
+            Head = node;
+
+            Count++;
+        }
     }
 }
