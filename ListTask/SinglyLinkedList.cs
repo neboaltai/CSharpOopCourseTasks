@@ -215,5 +215,22 @@ namespace ListTask
 
             return value;
         }
+
+        public void Reverse()
+        {
+            SinglyLinkedListNode<T> temp = Head;
+
+            for (SinglyLinkedListNode<T> currentNode = Head, previousNode = null; currentNode != null; previousNode = currentNode, currentNode = temp)
+            {
+                if (currentNode.Next is null)
+                {
+                    Head = temp;
+                }
+
+                temp = currentNode.Next;
+
+                currentNode.Next = previousNode;
+            }
+        }
     }
 }
