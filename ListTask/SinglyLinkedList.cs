@@ -151,5 +151,48 @@ namespace ListTask
 
             Count++;
         }
+
+        public bool Remove(T value)
+        {
+            if (value is null)
+            {
+                throw new ArgumentNullException(nameof(value), "Value cannot be null");
+            }
+
+            for (SinglyLinkedListNode<T> currentNode = Head, previousNode = null; currentNode != null; previousNode = currentNode, currentNode = currentNode.Next)
+            {
+                if (value.Equals(currentNode.Data))
+                {
+                    if (currentNode.Next == null)
+                    {
+                        if (previousNode == null)
+                        {
+                            Head = null;
+                        }
+                        else
+                        {
+                            previousNode.Next = null;
+                        }
+                    }
+                    else
+                    {
+                        if (previousNode == null)
+                        {
+                            Head = currentNode.Next;
+                        }
+                        else
+                        {
+                            previousNode.Next = currentNode.Next;
+                        }
+                    }
+
+                    Count--;
+
+                    return true;
+                }
+            }
+
+            return false;
+        }
     }
 }
