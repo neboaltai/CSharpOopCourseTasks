@@ -119,5 +119,37 @@ namespace ListTask
 
             Count++;
         }
+
+        public void Add(int index, SinglyLinkedListNode<T> node)
+        {
+            if (index < 0 || index > Count)
+            {
+                throw new ArgumentOutOfRangeException(nameof(index), $"Parameter value {index} is invalid. The index must be between 0 and {Count} inclusive");
+            }
+
+            if (index == 0)
+            {
+                AddFirst(node);
+
+                return;
+            }
+
+            SinglyLinkedListNode<T> currentNode = Head;
+
+            SinglyLinkedListNode<T> previousNode = null;
+
+            for (int i = 0; i < index; i++)
+            {
+                previousNode = currentNode;
+
+                currentNode = currentNode.Next;
+            }
+
+            previousNode.Next = node;
+
+            node.Next = currentNode;
+
+            Count++;
+        }
     }
 }
