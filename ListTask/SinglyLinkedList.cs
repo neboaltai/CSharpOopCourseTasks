@@ -41,5 +41,26 @@ namespace ListTask
 
             return node.Data;
         }
+
+        public T SetValue(int index, T newValue)
+        {
+            if (index < 0 || index >= Count)
+            {
+                throw new ArgumentOutOfRangeException(nameof(index), $"Parameter value {index} is invalid. The index must be between 0 and {Count - 1} inclusive");
+            }
+
+            SinglyLinkedListNode<T> node = Head;
+
+            for (int i = 0; i < index; i++)
+            {
+                node = node.Next;
+            }
+
+            T oldValue = node.Data;
+
+            node.Data = newValue;
+
+            return oldValue;
+        }
     }
 }
