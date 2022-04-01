@@ -70,6 +70,11 @@ namespace ListTask
                 throw new ArgumentOutOfRangeException(nameof(index), $"Parameter value {index} is invalid. The index must be between 0 and {Count - 1} inclusive");
             }
 
+            if (index == 0)
+            {
+                return RemoveFirst();
+            }
+
             SinglyLinkedListNode<T> currentNode = Head;
 
             SinglyLinkedListNode<T> previousNode = null;
@@ -193,6 +198,22 @@ namespace ListTask
             }
 
             return false;
+        }
+
+        public T RemoveFirst()
+        {
+            if (Head is null)
+            {
+                throw new InvalidOperationException("The list is empty");
+            }
+
+            T value = Head.Data;
+
+            Head = Head.Next;
+
+            Count--;
+
+            return value;
         }
     }
 }
