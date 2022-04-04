@@ -12,17 +12,17 @@ namespace ArrayListHome
             {
                 using StreamReader reader = new StreamReader("..\\..\\..\\input.txt");
 
-                List<string> stringsList = new List<string>();
+                List<string> linesList = new List<string>();
 
                 string currentLine;
 
                 while ((currentLine = reader.ReadLine()) != null)
                 {
-                    stringsList.Add(currentLine);
+                    linesList.Add(currentLine);
                 }
 
-                Console.WriteLine("1. Список строк из файла:");
-                Console.WriteLine(string.Join(Environment.NewLine, stringsList));
+                Console.WriteLine("1. List of lines from a file:");
+                Console.WriteLine(string.Join(Environment.NewLine, linesList));
             }
             catch (IOException e)
             {
@@ -43,7 +43,7 @@ namespace ArrayListHome
             }
 
             Console.WriteLine();
-            Console.WriteLine("2. Список нечётных чисел:");
+            Console.WriteLine("2. List of odd numbers:");
             Console.WriteLine(string.Join(", ", integersList));
 
             List<int> distinctIntegersList = new List<int>(integersList.Count);
@@ -57,7 +57,7 @@ namespace ArrayListHome
             }
 
             Console.WriteLine();
-            Console.WriteLine("3. Список уникальных чисел:");
+            Console.WriteLine("3. List of distinct numbers:");
             Console.WriteLine(string.Join(", ", distinctIntegersList));
         }
     }
