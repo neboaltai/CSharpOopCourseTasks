@@ -122,7 +122,7 @@ namespace CsvToHtmlConverter
             catch (IOException e)
             {
                 Console.WriteLine("The file could not be read:");
-                Console.WriteLine(e);
+                Console.WriteLine(e.Message);
             }
         }
     }
