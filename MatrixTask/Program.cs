@@ -16,18 +16,18 @@ namespace MatrixTask
             };
 
             Matrix matrixA = new Matrix(array1);
-            Console.WriteLine($"Матрица {string.Join("x", matrixA.GetSizes())}, заданная двумерным массивом: A = {matrixA}");
+            Console.WriteLine($"Матрица {matrixA.RowsCount} x {matrixA.ColumnsCount}, заданная двумерным массивом: A = {matrixA}");
 
             Matrix matrixB = new Matrix(matrixA);
             matrixB.Transpose();
-            Console.WriteLine($"Транспонированная матрица {string.Join("x", matrixB.GetSizes())}: B = A^T = {matrixB}");
+            Console.WriteLine($"Транспонированная матрица {matrixB.RowsCount} x {matrixB.ColumnsCount}: B = A^T = {matrixB}");
 
             Matrix matrixC = Matrix.GetProduct(matrixA, matrixB);
             Console.WriteLine("Умножение матриц: С = A * B = " + matrixC);
 
             Console.WriteLine("Определитель матрицы: detС = " + matrixC.GetDeterminant());
 
-            Matrix matrixE = new Matrix(3, 4);
+            Matrix matrixE = new Matrix(3, 3);
             Console.WriteLine("Матрица нулей: E = " + matrixE);
 
             double[,] array2 =
