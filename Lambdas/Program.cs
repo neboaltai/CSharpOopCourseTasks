@@ -27,6 +27,8 @@ namespace Lambdas
                 .Select(x => x.Name)
                 .Distinct()
                 .ToList();
+
+            Console.WriteLine("Имена: " + string.Join(", ", distinctNames) + ".");
         }
     }
 }
