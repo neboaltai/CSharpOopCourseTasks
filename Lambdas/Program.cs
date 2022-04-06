@@ -22,6 +22,11 @@ namespace Lambdas
                 new Person("Dmitry", 23),
                 new Person("Anna", 20)
             };
+
+            List<string> distinctNames = persons
+                .Select(x => x.Name)
+                .Distinct()
+                .ToList();
         }
     }
 }
