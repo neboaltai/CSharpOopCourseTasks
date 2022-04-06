@@ -28,7 +28,7 @@ namespace Lambdas
                 .Distinct()
                 .ToList();
 
-            Console.WriteLine("Имена: {0}.", string.Join(", ", distinctNames));
+            Console.WriteLine("Names: {0}.", string.Join(", ", distinctNames));
 
             List<Person> under18Persons = persons
                 .Where(person => person.Age < 18)
@@ -38,19 +38,32 @@ namespace Lambdas
                 .Select(person => person.Age)
                 .Average();
 
-            Console.WriteLine("Средний возраст людей, младше 18 лет: {0:f02}", averageAge);
+            Console.WriteLine("Average age of persons under 18: {0:f02}", averageAge);
 
             Dictionary<string, double> averageAgesByName = persons
                 .GroupBy(person => person.Name, person => person.Age)
                 .ToDictionary(group => group.Key, group => group.Average());
 
             Console.WriteLine();
-            Console.WriteLine("[Имя, Средний возраст]");
+            Console.WriteLine("[Name, Average age]");
 
             foreach (KeyValuePair<string, double> entry in averageAgesByName)
             {
                 Console.WriteLine(entry);
             }
+
+            Console.WriteLine();
+            Console.WriteLine("Names of persons from 20 to 45 years old in descending order:");
+
+            List<Person> from45to20AgePersons = persons
+                .Where(person => person.Age >= 20 && person.Age <= 45)
+                .OrderByDescending(person => person.Age)
+                .Select(person =>
+                {
+                    Console.WriteLine(person.Name);
+                    return person;
+                })
+                .ToList();
         }
     }
 }
