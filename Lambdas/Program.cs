@@ -29,6 +29,16 @@ namespace Lambdas
                 .ToList();
 
             Console.WriteLine("Имена: " + string.Join(", ", distinctNames) + ".");
+
+            List<Person> under18Persons = persons
+                .Where(x => x.Age < 18)
+                .ToList();
+
+            double averageAge = under18Persons
+                .Select(x => x.Age)
+                .Average();
+
+            Console.WriteLine("Средний возраст людей, младше 18 лет: " + averageAge);
         }
     }
 }
