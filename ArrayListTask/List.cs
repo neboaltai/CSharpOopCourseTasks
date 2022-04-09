@@ -141,7 +141,17 @@ namespace ArrayListTask
 
         public void CopyTo(T[] array, int arrayIndex)
         {
-            throw new NotImplementedException();
+            if (array is null)
+            {
+                throw new ArgumentNullException(nameof(array), "Array cannot be null");
+            }
+
+            if (arrayIndex < 0 || arrayIndex >= array.Length)
+            {
+                throw new ArgumentOutOfRangeException(nameof(arrayIndex), $"Parameter value {arrayIndex} is invalid. The index must be between 0 and {array.Length - 1} inclusive");
+            }
+
+            Array.Copy(items, 0, array, arrayIndex, Math.Min(array.Length - arrayIndex, count));
         }
 
         public IEnumerator<T> GetEnumerator()
