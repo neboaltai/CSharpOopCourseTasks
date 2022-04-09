@@ -118,7 +118,25 @@ namespace ArrayListTask
 
         public bool Contains(T item)
         {
-            throw new NotImplementedException();
+            for (int i = 0; i < count; i++)
+            {
+                if (item is null)
+                {
+                    if (items[i] is null)
+                    {
+                        return true;
+                    }
+
+                    continue;
+                }
+
+                if (item.Equals(items[i]))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         public void CopyTo(T[] array, int arrayIndex)
