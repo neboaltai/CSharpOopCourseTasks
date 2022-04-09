@@ -261,5 +261,17 @@ namespace ArrayListTask
 
             count--;
         }
+
+        public void TrimExcess()
+        {
+            if (Capacity > count)
+            {
+                T[] result = new T[count];
+
+                Array.Copy(items, result, count);
+
+                items = result;
+            }
+        }
     }
 }
