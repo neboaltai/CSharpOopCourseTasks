@@ -156,12 +156,15 @@ namespace ArrayListTask
 
         public IEnumerator<T> GetEnumerator()
         {
-            throw new NotImplementedException();
+            for (int i = 0; i < count; i++)
+            {
+                yield return items[i];
+            }
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            throw new NotImplementedException();
+            return GetEnumerator();
         }
 
         public int IndexOf(T item)
