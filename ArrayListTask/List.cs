@@ -192,7 +192,30 @@ namespace ArrayListTask
 
         public void Insert(int index, T item)
         {
-            throw new NotImplementedException();
+            if (index < 0 || index > count)
+            {
+                throw new ArgumentOutOfRangeException(nameof(index), $"Parameter value {index} is invalid. The index must be between 0 and {count} inclusive");
+            }
+
+            if (index == count)
+            {
+                Add(item);
+
+                return;
+            }
+
+            if (count == Capacity)
+            {
+                IncreaseCapacity();
+            }
+
+            T[] old = items;
+
+            Array.Copy(old, index, items, index + 1, count - index);
+
+            items[index] = item;
+
+            count++;
         }
 
         public bool Remove(T item)
