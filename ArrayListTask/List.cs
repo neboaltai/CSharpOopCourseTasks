@@ -10,9 +10,59 @@ namespace ArrayListTask
 
         private int count;
 
-        public int Count => throw new NotImplementedException();
+        public int Count
+        {
+            get
+            {
+                return count;
+            }
+        }
 
-        public T this[int index] { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public int Capacity
+        {
+            get
+            {
+                return items.Length;
+            }
+            set
+            {
+                if (value < Count)
+                {
+                    throw new InvalidOperationException($"Invalid value. The value {value} must not be less than the count of items ({Count})");
+                }
+
+                if (value > Count)
+                {
+                    T[] old = items;
+
+                    items = new T[value];
+
+                    Array.Copy(old, items, old.Length);
+                }
+            }
+        }
+
+        public T this[int index]
+        {
+            get
+            {
+                if (index < 0 || index >= Count)
+                {
+                    throw new ArgumentOutOfRangeException(nameof(index), $"Parameter value {index} is invalid. The index must be between 0 and {Count - 1} inclusive");
+                }
+
+                return items[index];
+            }
+            set
+            {
+                if (index < 0 || index >= Count)
+                {
+                    throw new ArgumentOutOfRangeException(nameof(index), $"Parameter value {index} is invalid. The index must be between 0 and {Count - 1} inclusive");
+                }
+
+                items[index] = value;
+            }
+        }
 
         public bool IsReadOnly => throw new NotImplementedException();
 
