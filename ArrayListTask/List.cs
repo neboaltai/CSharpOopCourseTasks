@@ -169,7 +169,25 @@ namespace ArrayListTask
 
         public int IndexOf(T item)
         {
-            throw new NotImplementedException();
+            for (int i = 0; i < count; i++)
+            {
+                if (item is null)
+                {
+                    if (items[i] is null)
+                    {
+                        return i;
+                    }
+
+                    continue;
+                }
+
+                if (item.Equals(items[i]))
+                {
+                    return i;
+                }
+            }
+
+            return -1;
         }
 
         public void Insert(int index, T item)
