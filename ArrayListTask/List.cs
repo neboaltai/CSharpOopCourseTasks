@@ -78,9 +78,32 @@ namespace ArrayListTask
             items = new T[capacity];
         }
 
+        private void IncreaseCapacity()
+        {
+            if (Capacity == 0)
+            {
+                items = new T[1];
+            }
+            else
+            {
+                T[] old = items;
+
+                items = new T[old.Length * 2];
+
+                Array.Copy(old, items, old.Length);
+            }
+        }
+
         public void Add(T item)
         {
-            throw new NotImplementedException();
+            if (count == Capacity)
+            {
+                IncreaseCapacity();
+            }
+
+            items[count] = item;
+
+            count++;
         }
 
         public void Clear()
