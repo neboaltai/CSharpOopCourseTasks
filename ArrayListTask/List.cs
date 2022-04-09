@@ -220,12 +220,46 @@ namespace ArrayListTask
 
         public bool Remove(T item)
         {
-            throw new NotImplementedException();
+            for (int i = 0; i < count; i++)
+            {
+                if (item is null)
+                {
+                    if (items[i] is null)
+                    {
+                        RemoveAt(i);
+
+                        return true;
+                    }
+
+                    continue;
+                }
+
+                if (item.Equals(items[i]))
+                {
+                    RemoveAt(i);
+
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         public void RemoveAt(int index)
         {
-            throw new NotImplementedException();
+            if (index < 0 || index >= count)
+            {
+                throw new ArgumentOutOfRangeException(nameof(index), $"Parameter value {index} is invalid. The index must be between 0 and {count - 1} inclusive");
+            }
+
+            if (index < count - 1)
+            {
+                Array.Copy(items, index + 1, items, index, count - index - 1);
+            }
+
+            items[count - 1] = default(T);
+
+            count--;
         }
     }
 }
