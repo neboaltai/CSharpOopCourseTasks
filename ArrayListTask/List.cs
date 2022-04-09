@@ -108,7 +108,12 @@ namespace ArrayListTask
 
         public void Clear()
         {
-            throw new NotImplementedException();
+            for (int i = 0; i < count; i++)
+            {
+                items[i] = default(T);
+            }
+
+            count = 0;
         }
 
         public bool Contains(T item)
