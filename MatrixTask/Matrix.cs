@@ -52,7 +52,7 @@ namespace MatrixTask
 
             if (array.Length == 0)
             {
-                throw new ArgumentException($"Parameter value {array} is invalid. The count of components must be > 0", nameof(array.Length));
+                throw new ArgumentException($"Parameter value {array} is invalid. The count of columns must be > 0", nameof(array.Length));
             }
 
             int rowsCount = array.GetLength(0);
@@ -75,12 +75,12 @@ namespace MatrixTask
         {
             if (vectors is null)
             {
-                throw new ArgumentNullException(nameof(vectors), "Array of vectors cannot be null");
+                throw new ArgumentNullException(nameof(vectors), "Array cannot be null");
             }
 
             if (vectors.Length == 0)
             {
-                throw new ArgumentException($"Parameter value {vectors} is invalid. The count of components must be > 0", nameof(vectors.Length));
+                throw new ArgumentException($"Parameter value {vectors} is invalid. The count of columns must be > 0", nameof(vectors.Length));
             }
 
             int columnsCount = 0;
@@ -119,49 +119,37 @@ namespace MatrixTask
         {
             if (count1 != count2)
             {
-                throw new ArgumentException($"Parameter value {count2} is invalid. The count of columns should be the same as the original ({count1})", nameof(count2));
+                throw new ArgumentException($"The count in first parameter ({count1}) must be equal to the count in the second parameter ({count2})", nameof(count2));
             }
         }
 
-        private static void CheckCountOfColumnsAreEqualToCountOfRows(int columnsCount, int rowsCount)
+        private void CheckOutOfBounds(int index, int start, int end)
         {
-            if (columnsCount != rowsCount)
+            if (index < start || index > end)
             {
-                throw new ArgumentException($"The count of columns ({columnsCount}) of the first matrix must be equal to the count of rows ({rowsCount}) of the second matrix", nameof(rowsCount));
+                throw new ArgumentOutOfRangeException(nameof(index), $"Parameter value {index} is invalid. The index must be between {start} and {end} inclusive");
             }
         }
 
         public Vector GetRow(int index)
         {
-            if (index < 0 || index >= RowsCount)
-            {
-                throw new ArgumentOutOfRangeException(nameof(index), $"Parameter value {index} is invalid. The index must be between 0 and {RowsCount - 1} inclusive");
-            }
+            CheckOutOfBounds(index, 0, RowsCount - 1);
 
             return rows[index];
         }
 
         public void SetRow(int index, Vector vector)
         {
-            if (index < 0 || index >= RowsCount)
-            {
-                throw new ArgumentOutOfRangeException(nameof(index), $"Parameter value {index} is invalid. The index must be between 0 and {RowsCount - 1} inclusive");
-            }
+            CheckOutOfBounds(index, 0, RowsCount - 1);
 
-            if (vector.GetSize() != rows[index].GetSize())
-            {
-                throw new ArgumentException($"Parameter value {vector.GetSize()} is invalid. Vector size must be equal to the size of the row ({rows[index].GetSize()})", nameof(vector));
-            }
+            CheckEquality(vector.GetSize(), rows[index].GetSize());
 
             rows[index] = new Vector(vector);
         }
 
         public Vector GetColumn(int index)
         {
-            if (index < 0 || index >= ColumnsCount)
-            {
-                throw new ArgumentOutOfRangeException(nameof(index), $"Parameter value {index} is invalid. The index must be between 0 and {ColumnsCount - 1} inclusive");
-            }
+            CheckOutOfBounds(index, 0, ColumnsCount - 1);
 
             Vector result = new Vector(RowsCount);
 
@@ -249,7 +237,7 @@ namespace MatrixTask
                 throw new ArgumentNullException(nameof(vector), "Vector cannot be null");
             }
 
-            CheckCountOfColumnsAreEqualToCountOfRows(ColumnsCount, vector.GetSize());
+            CheckEquality(ColumnsCount, vector.GetSize());
 
             Vector result = new Vector(RowsCount);
 
@@ -333,7 +321,7 @@ namespace MatrixTask
                 throw new ArgumentNullException(nameof(matrix2), "Matrix cannot be null");
             }
 
-            CheckCountOfColumnsAreEqualToCountOfRows(matrix1.ColumnsCount, matrix2.RowsCount);
+            CheckEquality(matrix1.ColumnsCount, matrix2.RowsCount);
 
             double[,] result = new double[matrix1.RowsCount, matrix2.ColumnsCount];
 
