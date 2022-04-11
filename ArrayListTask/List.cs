@@ -26,12 +26,12 @@ namespace ArrayListTask
             }
             set
             {
-                if (value < Count)
+                if (value < count)
                 {
-                    throw new InvalidOperationException($"Invalid value. The value {value} must not be less than the count of items ({Count})");
+                    throw new InvalidOperationException($"Invalid value. The value {value} must not be less than the count of items ({count})");
                 }
 
-                if (value > Count)
+                if (value > count)
                 {
                     T[] old = items;
 
@@ -46,19 +46,13 @@ namespace ArrayListTask
         {
             get
             {
-                if (index < 0 || index >= Count)
-                {
-                    throw new ArgumentOutOfRangeException(nameof(index), $"Parameter value {index} is invalid. The index must be between 0 and {Count - 1} inclusive");
-                }
+                CheckOutOfBounds(index, 0, count - 1);
 
                 return items[index];
             }
             set
             {
-                if (index < 0 || index >= Count)
-                {
-                    throw new ArgumentOutOfRangeException(nameof(index), $"Parameter value {index} is invalid. The index must be between 0 and {Count - 1} inclusive");
-                }
+                CheckOutOfBounds(index, 0, count - 1);
 
                 items[index] = value;
             }
@@ -76,6 +70,14 @@ namespace ArrayListTask
             }
 
             items = new T[capacity];
+        }
+
+        private void CheckOutOfBounds(int index, int start, int end)
+        {
+            if (index < start || index > end)
+            {
+                throw new ArgumentOutOfRangeException(nameof(index), $"Parameter value {index} is invalid. The index must be between 0 and {end} inclusive");
+            }
         }
 
         private void IncreaseCapacity()
@@ -146,10 +148,7 @@ namespace ArrayListTask
                 throw new ArgumentNullException(nameof(array), "Array cannot be null");
             }
 
-            if (arrayIndex < 0 || arrayIndex >= array.Length)
-            {
-                throw new ArgumentOutOfRangeException(nameof(arrayIndex), $"Parameter value {arrayIndex} is invalid. The index must be between 0 and {array.Length - 1} inclusive");
-            }
+            CheckOutOfBounds(arrayIndex, 0, array.Length - 1);
 
             Array.Copy(items, 0, array, arrayIndex, Math.Min(array.Length - arrayIndex, count));
         }
@@ -192,10 +191,7 @@ namespace ArrayListTask
 
         public void Insert(int index, T item)
         {
-            if (index < 0 || index > count)
-            {
-                throw new ArgumentOutOfRangeException(nameof(index), $"Parameter value {index} is invalid. The index must be between 0 and {count} inclusive");
-            }
+            CheckOutOfBounds(index, 0, count);
 
             if (index == count)
             {
@@ -247,10 +243,7 @@ namespace ArrayListTask
 
         public void RemoveAt(int index)
         {
-            if (index < 0 || index >= count)
-            {
-                throw new ArgumentOutOfRangeException(nameof(index), $"Parameter value {index} is invalid. The index must be between 0 and {count - 1} inclusive");
-            }
+            CheckOutOfBounds(index, 0, count - 1);
 
             if (index < count - 1)
             {
