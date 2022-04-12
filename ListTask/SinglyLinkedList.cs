@@ -1,194 +1,136 @@
 ﻿using System;
+using System.Text;
 
 namespace ListTask
 {
-    class SinglyLinkedList<T>
+    public class SinglyLinkedList<T>
     {
-        public SinglyLinkedListNode<T> Head { get; private set; }
+        private ListNode<T> head;
 
         public int Count { get; private set; }
 
+        public T this[int index]
+        {
+            get
+            {
+                CheckOutOfBounds(index, 0, Count - 1);
+
+                return IterateUntil(index).Data;
+            }
+            set
+            {
+                CheckOutOfBounds(index, 0, Count - 1);
+
+                IterateUntil(index).Data = value;
+            }
+        }
+
         public SinglyLinkedList() { }
 
-        public SinglyLinkedList(SinglyLinkedListNode<T> head)
+        public SinglyLinkedList(T data)
         {
-            Head = head;
+            head = new ListNode<T>(data);
 
-            for (SinglyLinkedListNode<T> node = head; node != null; node = node.Next)
+            for (ListNode<T> node = head; node != null; node = node.Next)
             {
                 Count++;
             }
         }
 
-        public T GetFirstValue()
+        private void CheckOutOfBounds(int index, int start, int end)
         {
-            return Head.Data;
+            if (index < start || index > end)
+            {
+                throw new ArgumentOutOfRangeException(nameof(index), $"Parameter value {index} is invalid. The index must be between {start} and {end} inclusive");
+            }
         }
 
-        public T GetValue(int index)
+        private ListNode<T> IterateUntil(int index)
         {
-            if (index < 0 || index >= Count)
-            {
-                throw new ArgumentOutOfRangeException(nameof(index), $"Parameter value {index} is invalid. The index must be between 0 and {Count - 1} inclusive");
-            }
-
-            SinglyLinkedListNode<T> node = Head;
+            ListNode<T> node = head;
 
             for (int i = 0; i < index; i++)
             {
                 node = node.Next;
             }
 
-            return node.Data;
+            return node;
         }
 
-        public T SetValue(int index, T newValue)
+        public T GetFirst()
         {
-            if (index < 0 || index >= Count)
+            if (head is null)
             {
-                throw new ArgumentOutOfRangeException(nameof(index), $"Parameter value {index} is invalid. The index must be between 0 and {Count - 1} inclusive");
+                throw new InvalidOperationException("The list is empty");
             }
 
-            SinglyLinkedListNode<T> node = Head;
-
-            for (int i = 0; i < index; i++)
-            {
-                node = node.Next;
-            }
-
-            T oldValue = node.Data;
-
-            node.Data = newValue;
-
-            return oldValue;
+            return head.Data;
         }
 
         public T RemoveAt(int index)
         {
-            if (index < 0 || index >= Count)
-            {
-                throw new ArgumentOutOfRangeException(nameof(index), $"Parameter value {index} is invalid. The index must be between 0 and {Count - 1} inclusive");
-            }
+            CheckOutOfBounds(index, 0, Count - 1);
 
             if (index == 0)
             {
                 return RemoveFirst();
             }
 
-            SinglyLinkedListNode<T> currentNode = Head;
+            ListNode<T> previousNode = IterateUntil(index - 1);
 
-            SinglyLinkedListNode<T> previousNode = null;
+            ListNode<T> currentNode = previousNode.Next;
 
-            for (int i = 0; i < index; i++)
-            {
-                previousNode = currentNode;
+            T removedData = currentNode.Data;
 
-                currentNode = currentNode.Next;
-            }
-
-            T value = currentNode.Data;
-
-            if (currentNode.Next == null)
-            {
-                if (previousNode == null)
-                {
-                    Head = null;
-                }
-                else
-                {
-                    previousNode.Next = null;
-                }
-            }
-            else
-            {
-                if (previousNode == null)
-                {
-                    Head = currentNode.Next;
-                }
-                else
-                {
-                    previousNode.Next = currentNode.Next;
-                }
-            }
+            previousNode.Next = currentNode.Next;
 
             Count--;
 
-            return value;
+            return removedData;
         }
 
-        public void AddFirst(SinglyLinkedListNode<T> node)
+        public void AddFirst(T data)
         {
-            node.Next = Head;
+            ListNode<T> node = new ListNode<T>(data, head);
 
-            Head = node;
+            head = node;
 
             Count++;
         }
 
-        public void Add(int index, SinglyLinkedListNode<T> node)
+        public void Add(int index, T data)
         {
-            if (index < 0 || index > Count)
-            {
-                throw new ArgumentOutOfRangeException(nameof(index), $"Parameter value {index} is invalid. The index must be between 0 and {Count} inclusive");
-            }
+            CheckOutOfBounds(index, 0, Count);
 
             if (index == 0)
             {
-                AddFirst(node);
+                AddFirst(data);
 
                 return;
             }
 
-            SinglyLinkedListNode<T> currentNode = Head;
+            ListNode<T> previousNode = IterateUntil(index - 1);
 
-            SinglyLinkedListNode<T> previousNode = null;
+            ListNode<T> addedNode = new ListNode<T>(data, previousNode.Next);
 
-            for (int i = 0; i < index; i++)
-            {
-                previousNode = currentNode;
-
-                currentNode = currentNode.Next;
-            }
-
-            previousNode.Next = node;
-
-            node.Next = currentNode;
+            previousNode.Next = addedNode;
 
             Count++;
         }
 
-        public bool Remove(T value)
+        public bool Remove(T data)
         {
-            if (value is null)
+            for (ListNode<T> currentNode = head, previousNode = null; currentNode != null; previousNode = currentNode, currentNode = currentNode.Next)
             {
-                throw new ArgumentNullException(nameof(value), "Value cannot be null");
-            }
-
-            for (SinglyLinkedListNode<T> currentNode = Head, previousNode = null; currentNode != null; previousNode = currentNode, currentNode = currentNode.Next)
-            {
-                if (value.Equals(currentNode.Data))
+                if (data.Equals(currentNode.Data))
                 {
-                    if (currentNode.Next == null)
+                    if (previousNode == null)
                     {
-                        if (previousNode == null)
-                        {
-                            Head = null;
-                        }
-                        else
-                        {
-                            previousNode.Next = null;
-                        }
+                        head = currentNode.Next;
                     }
                     else
                     {
-                        if (previousNode == null)
-                        {
-                            Head = currentNode.Next;
-                        }
-                        else
-                        {
-                            previousNode.Next = currentNode.Next;
-                        }
+                        previousNode.Next = currentNode.Next;
                     }
 
                     Count--;
@@ -202,32 +144,32 @@ namespace ListTask
 
         public T RemoveFirst()
         {
-            if (Head is null)
+            if (head is null)
             {
                 throw new InvalidOperationException("The list is empty");
             }
 
-            T value = Head.Data;
+            T removedData = head.Data;
 
-            Head = Head.Next;
+            head = head.Next;
 
             Count--;
 
-            return value;
+            return removedData;
         }
 
         public void Reverse()
         {
-            SinglyLinkedListNode<T> temp = Head;
+            ListNode<T> nextNode = head;
 
-            for (SinglyLinkedListNode<T> currentNode = Head, previousNode = null; currentNode != null; previousNode = currentNode, currentNode = temp)
+            for (ListNode<T> currentNode = head, previousNode = null; currentNode != null; previousNode = currentNode, currentNode = nextNode)
             {
                 if (currentNode.Next is null)
                 {
-                    Head = temp;
+                    head = nextNode;
                 }
 
-                temp = currentNode.Next;
+                nextNode = currentNode.Next;
 
                 currentNode.Next = previousNode;
             }
@@ -235,23 +177,42 @@ namespace ListTask
 
         public SinglyLinkedList<T> Copy()
         {
-            if (Head is null)
+            if (head is null)
             {
                 return new SinglyLinkedList<T>();
             }
 
-            SinglyLinkedListNode<T> resultNode = new SinglyLinkedListNode<T>(Head.Data);
+            SinglyLinkedList<T> result = new SinglyLinkedList<T>(head.Data);
 
-            SinglyLinkedList<T> result = new SinglyLinkedList<T>(resultNode);
+            ListNode<T> resultNode = result.head;
 
-            for (SinglyLinkedListNode<T> node = Head.Next; node != null; node = node.Next)
+            for (ListNode<T> node = head.Next; node != null; node = node.Next)
             {
-                resultNode.Next = new SinglyLinkedListNode<T>(node.Data);
+                resultNode.Next = new ListNode<T>(node.Data);
 
                 resultNode = resultNode.Next;
             }
 
             return result;
+        }
+
+        public override string ToString()
+        {
+            StringBuilder result = new StringBuilder("[");
+
+            for (ListNode<T> node = head; node != null; node = node.Next)
+            {
+                result.Append(node.Data).Append(", ");
+            }
+
+            if (head != null)
+            {
+                result.Remove(result.Length - 2, 2);
+            }
+
+            result.Append("]");
+
+            return result.ToString();
         }
     }
 }

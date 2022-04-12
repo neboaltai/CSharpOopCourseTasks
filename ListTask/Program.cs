@@ -6,37 +6,27 @@ namespace ListTask
     {
         static void Main(string[] args)
         {
-            SinglyLinkedList<string> companies = new SinglyLinkedList<string>(new SinglyLinkedListNode<string>("Sovcombank"));
+            SinglyLinkedList<string> companies = new SinglyLinkedList<string>("Sovcombank");
 
-            companies.AddFirst(new SinglyLinkedListNode<string>("Movavi"));
-            companies.AddFirst(new SinglyLinkedListNode<string>("BKS"));
-            companies.AddFirst(new SinglyLinkedListNode<string>("Intabia"));
-            companies.Add(3, new SinglyLinkedListNode<string>("Friday's Games"));
+            companies.AddFirst("Movavi");
+            companies.AddFirst("BKS");
+            companies.AddFirst("Intabia");
+            companies.Add(3, "Friday's Games");
 
-            Console.WriteLine("Исходный список: ");
-
-            for (SinglyLinkedListNode<string> node = companies.Head; node != null; node = node.Next)
-            {
-                Console.WriteLine("\t" + node.Data);
-            }
+            Console.WriteLine("Исходный список: " + companies);
 
             Console.WriteLine("Размер списка: " + companies.Count);
 
-            Console.WriteLine("Значение первого элемента: " + companies.GetFirstValue());
+            Console.WriteLine("Значение первого элемента: " + companies.GetFirst());
 
-            Console.WriteLine($"Замена значения \"{companies.SetValue(1, "CFT")}\" второго элемента значением \"{companies.GetValue(1)}\"");
+            Console.WriteLine($"Замена значения \"{companies[1] = "CFT"}\" второго элемента значением \"{companies[1]}\"");
 
             Console.WriteLine("Удалён третий элемент со значением: " + companies.RemoveAt(2));
 
             companies.Reverse();
-            Console.WriteLine("Получившийся список в обратном порядке:");
+            Console.WriteLine("Получившийся список в обратном порядке: " + companies);
 
-            for (SinglyLinkedListNode<string> node = companies.Head; node != null; node = node.Next)
-            {
-                Console.WriteLine("\t" + node.Data);
-            }
-
-            string value = companies.GetValue(1);
+            string value = companies[1];
 
             Console.Write($"Удалён элемента по значению: \"{value}\"");
 
@@ -53,12 +43,7 @@ namespace ListTask
 
             SinglyLinkedList<string> copy = companies.Copy();
 
-            Console.WriteLine("Копия получившегося список: ");
-
-            for (SinglyLinkedListNode<string> node = copy.Head; node != null; node = node.Next)
-            {
-                Console.WriteLine("\t" + node.Data);
-            }
+            Console.WriteLine("Копия получившегося списка: " + copy);
         }
     }
 }
