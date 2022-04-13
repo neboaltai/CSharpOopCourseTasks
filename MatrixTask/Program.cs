@@ -16,19 +16,19 @@ namespace MatrixTask
             };
 
             Matrix matrixA = new Matrix(array1);
-            Console.WriteLine($"Матрица {matrixA.RowsCount} x {matrixA.ColumnsCount}, заданная двумерным массивом: A = {matrixA}");
+            Console.WriteLine($"Matrix {matrixA.RowsCount} x {matrixA.ColumnsCount}, specified by a two-dimensional array:: A = {matrixA}");
 
             Matrix matrixB = new Matrix(matrixA);
             matrixB.Transpose();
-            Console.WriteLine($"Транспонированная матрица {matrixB.RowsCount} x {matrixB.ColumnsCount}: B = A^T = {matrixB}");
+            Console.WriteLine($"Transposed matrix {matrixB.RowsCount} x {matrixB.ColumnsCount}: B = A^T = {matrixB}");
 
             Matrix matrixC = Matrix.GetProduct(matrixA, matrixB);
-            Console.WriteLine("Умножение матриц: С = A * B = " + matrixC);
+            Console.WriteLine("Matrix multiplication: С = A * B = " + matrixC);
 
-            Console.WriteLine("Определитель матрицы: detС = " + matrixC.GetDeterminant());
+            Console.WriteLine("Matrix determinant: detС = " + matrixC.GetDeterminant());
 
             Matrix matrixE = new Matrix(3, 3);
-            Console.WriteLine("Матрица нулей: E = " + matrixE);
+            Console.WriteLine("Matrix of zeros: E = " + matrixE);
 
             double[,] array2 =
             {
@@ -38,28 +38,28 @@ namespace MatrixTask
             };
 
             Matrix matrixD = new Matrix(array2);
-            Console.WriteLine("Матрица, заданная двумерным массивом: D1 = " + matrixD);
+            Console.WriteLine("Matrix specified by a two-dimensional array: D1 = " + matrixD);
 
             matrixE.SetRow(0, matrixD.GetColumn(0));
 
             Vector[] vectors = { new Vector(matrixE.GetRow(0)), new Vector(matrixD.GetColumn(1)), new Vector(matrixD.GetColumn(2)) };
 
             Matrix matrixF = new Matrix(vectors);
-            Console.WriteLine("Матрица, заданная массивом векторов-строк: F = " + matrixF);
+            Console.WriteLine("Matrix specified by an array of row vectors: F = " + matrixF);
 
             double determinant = matrixF.GetDeterminant();
-            Console.WriteLine("\tопределитель матрицы: detF = " + determinant);
+            Console.WriteLine("\tmatrix determinant: detF = " + determinant);
 
-            Console.WriteLine($"\tрезультат умноженная на вектор: F * {vectors[0]} = {matrixF.MultiplyByVector(vectors[0])}");
+            Console.WriteLine($"\tresult of multiplication by a vector: F * {vectors[0]} = {matrixF.MultiplyByVector(vectors[0])}");
 
             matrixD.Add(matrixF);
-            Console.WriteLine("\tрезультат сложения с матрицей: D2 = D1 + F = " + matrixD);
+            Console.WriteLine("\tresult of matrix addition: D2 = D1 + F = " + matrixD);
 
             matrixD.Subtract(matrixF);
-            Console.WriteLine("\tрезультат вычитания матрицы: D2 - F = " + matrixD);
+            Console.WriteLine("\tresult of matrix substraction: D2 - F = " + matrixD);
 
             matrixF.MultiplyByScalar(determinant);
-            Console.WriteLine($"\tрезультат умножения матрицы на скаляр: F * {determinant} = {matrixF}");
+            Console.WriteLine($"\tresult of multiplying a matrix by a scalar: F * {determinant} = {matrixF}");
         }
     }
 }

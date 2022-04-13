@@ -7,21 +7,9 @@ namespace MatrixTask
     {
         private Vector[] rows;
 
-        public int RowsCount
-        {
-            get
-            {
-                return rows.Length;
-            }
-        }
+        public int RowsCount => rows.Length;
 
-        public int ColumnsCount
-        {
-            get
-            {
-                return rows[0].GetSize();
-            }
-        }
+        public int ColumnsCount => rows[0].GetSize();
 
         public Matrix(int rowsCount, int columnsCount)
         {
@@ -52,7 +40,7 @@ namespace MatrixTask
 
             if (array.Length == 0)
             {
-                throw new ArgumentException($"Parameter value {array} is invalid. The count of columns must be > 0", nameof(array.Length));
+                throw new ArgumentException($"Parameter value {array.Length} is invalid. The count of elements must be > 0", nameof(array));
             }
 
             int rowsCount = array.GetLength(0);
@@ -80,7 +68,7 @@ namespace MatrixTask
 
             if (vectors.Length == 0)
             {
-                throw new ArgumentException($"Parameter value {vectors} is invalid. The count of columns must be > 0", nameof(vectors.Length));
+                throw new ArgumentException($"Parameter value {vectors.Length} is invalid. The count of rows must be > 0", nameof(vectors));
             }
 
             int columnsCount = 0;
@@ -115,41 +103,44 @@ namespace MatrixTask
             }
         }
 
-        private static void CheckEquality(int count1, int count2)
+        private static void CheckIndex(int index, int maxIndex)
         {
-            if (count1 != count2)
+            if (index < 0 || index > maxIndex)
             {
-                throw new ArgumentException($"The count in first parameter ({count1}) must be equal to the count in the second parameter ({count2})", nameof(count2));
+                throw new ArgumentOutOfRangeException(nameof(index), $"Parameter value {index} is invalid. The index must be between 0 and {maxIndex} inclusive");
             }
         }
 
-        private void CheckOutOfBounds(int index, int start, int end)
+        private static void CheckDimensions(Matrix matrix1, Matrix matrix2)
         {
-            if (index < start || index > end)
+            if (matrix1.RowsCount != matrix2.RowsCount || matrix1.ColumnsCount != matrix2.ColumnsCount)
             {
-                throw new ArgumentOutOfRangeException(nameof(index), $"Parameter value {index} is invalid. The index must be between {start} and {end} inclusive");
+                throw new ArgumentException($"The dimensions of the first matrix ({matrix1.RowsCount} * {matrix1.ColumnsCount}) must match the dimensions of the second matrix ({matrix2.RowsCount} * {matrix2.ColumnsCount})");
             }
         }
 
         public Vector GetRow(int index)
         {
-            CheckOutOfBounds(index, 0, RowsCount - 1);
+            CheckIndex(index, RowsCount - 1);
 
-            return rows[index];
+            return new Vector(rows[index]);
         }
 
         public void SetRow(int index, Vector vector)
         {
-            CheckOutOfBounds(index, 0, RowsCount - 1);
+            CheckIndex(index, RowsCount - 1);
 
-            CheckEquality(vector.GetSize(), rows[index].GetSize());
+            if (vector.GetSize() != rows[index].GetSize())
+            {
+                throw new ArgumentException($"Parameter value {vector.GetSize()} is invalid. The size of the vector must be equal to the size of the row ({rows[index].GetSize()})", nameof(vector));
+            }
 
             rows[index] = new Vector(vector);
         }
 
         public Vector GetColumn(int index)
         {
-            CheckOutOfBounds(index, 0, ColumnsCount - 1);
+            CheckIndex(index, ColumnsCount - 1);
 
             Vector result = new Vector(RowsCount);
 
@@ -185,7 +176,7 @@ namespace MatrixTask
         {
             if (RowsCount != ColumnsCount)
             {
-                throw new InvalidOperationException($"Matrix is not square. The number of rows({RowsCount}) must be equal to the number of columns({ColumnsCount})");
+                throw new InvalidOperationException($"Matrix is not square. The count of rows ({RowsCount}) must be equal to the count of columns ({ColumnsCount})");
             }
 
             double[,] matrixA = new double[RowsCount, RowsCount];
@@ -237,7 +228,10 @@ namespace MatrixTask
                 throw new ArgumentNullException(nameof(vector), "Vector cannot be null");
             }
 
-            CheckEquality(ColumnsCount, vector.GetSize());
+            if (vector.GetSize() != ColumnsCount)
+            {
+                throw new ArgumentException($"Parameter value {vector.GetSize()} is invalid. Vector size must be equal to the count of columns ({ColumnsCount})", nameof(vector));
+            }
 
             Vector result = new Vector(RowsCount);
 
@@ -256,9 +250,7 @@ namespace MatrixTask
                 throw new ArgumentNullException(nameof(matrix), "Matrix cannot be null");
             }
 
-            CheckEquality(RowsCount, matrix.RowsCount);
-
-            CheckEquality(ColumnsCount, matrix.ColumnsCount);
+            CheckDimensions(this, matrix);
 
             for (int i = 0; i < RowsCount; i++)
             {
@@ -273,9 +265,7 @@ namespace MatrixTask
                 throw new ArgumentNullException(nameof(matrix), "Matrix cannot be null");
             }
 
-            CheckEquality(RowsCount, matrix.RowsCount);
-
-            CheckEquality(ColumnsCount, matrix.ColumnsCount);
+            CheckDimensions(this, matrix);
 
             for (int i = 0; i < rows.Length; i++)
             {
@@ -285,9 +275,7 @@ namespace MatrixTask
 
         public static Matrix GetSum(Matrix matrix1, Matrix matrix2)
         {
-            CheckEquality(matrix1.RowsCount, matrix2.RowsCount);
-
-            CheckEquality(matrix1.ColumnsCount, matrix2.ColumnsCount);
+            CheckDimensions(matrix1, matrix2);
 
             Matrix result = new Matrix(matrix1);
 
@@ -298,9 +286,7 @@ namespace MatrixTask
 
         public static Matrix GetDifference(Matrix matrix1, Matrix matrix2)
         {
-            CheckEquality(matrix1.RowsCount, matrix2.RowsCount);
-
-            CheckEquality(matrix1.ColumnsCount, matrix2.ColumnsCount);
+            CheckDimensions(matrix1, matrix2);
 
             Matrix result = new Matrix(matrix1);
 
@@ -321,7 +307,10 @@ namespace MatrixTask
                 throw new ArgumentNullException(nameof(matrix2), "Matrix cannot be null");
             }
 
-            CheckEquality(matrix1.ColumnsCount, matrix2.RowsCount);
+            if (matrix1.ColumnsCount != matrix2.RowsCount)
+            {
+                throw new ArgumentException($"The count of columns ({matrix1.ColumnsCount}) of the first matrix must be equal to the count of rows ({matrix2.RowsCount}) of the second matrix");
+            }
 
             double[,] result = new double[matrix1.RowsCount, matrix2.ColumnsCount];
 
