@@ -8,7 +8,7 @@ namespace ArrayListTask
         {
             List<int> list = new List<int>(3) { 1, 2, 3 };
 
-            Console.WriteLine("List of integers: [{0}]", string.Join(", ", list));
+            Console.WriteLine("List of integers: " + list);
 
             Console.WriteLine("List capacity: " + list.Capacity);
 
@@ -18,7 +18,7 @@ namespace ArrayListTask
 
             list.Insert(list.Count - 1, 5);
 
-            Console.WriteLine($"Add the integer 4 to the end and then insert integer 5 at index {list.Count - 1}: [{string.Join(", ", list)}]");
+            Console.WriteLine($"Add the integer 4 to the end and then insert integer 5 at index {list.Count - 1}: {list}");
 
             Console.WriteLine("List capacity: " + list.Capacity);
 
@@ -34,7 +34,7 @@ namespace ArrayListTask
                 }
             }
 
-            Console.WriteLine("correct list: [{0}]", string.Join(", ", list));
+            Console.WriteLine("correct list: " + list);
 
             string line = list.Remove(6) ? "has been removed" : "was not removed";
             Console.WriteLine("The integer 6 " + line);
