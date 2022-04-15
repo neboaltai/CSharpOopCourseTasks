@@ -102,12 +102,21 @@ namespace HashTableTask
 
         public IEnumerator<T> GetEnumerator()
         {
-            throw new NotImplementedException();
+            for (int i = 0; i < items.Length; i++)
+            {
+                if (items[i] != null)
+                {
+                    for (int j = 0; j < items[i].Count; j++)
+                    {
+                        yield return items[i][j];
+                    }
+                }
+            }
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            throw new NotImplementedException();
+            return GetEnumerator();
         }
 
         public bool Remove(T item)
