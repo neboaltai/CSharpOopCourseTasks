@@ -24,6 +24,18 @@ namespace HashTableTask
             items = new List<T>[capacity];
         }
 
+        private int GetIndex(T item)
+        {
+            if (item is null)
+            {
+                return 0;
+            }
+            else
+            {
+                return Math.Abs(item.GetHashCode() % items.Length);
+            }
+        }
+
         public void Add(T item)
         {
             throw new NotImplementedException();
