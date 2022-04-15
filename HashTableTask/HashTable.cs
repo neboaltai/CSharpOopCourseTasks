@@ -6,9 +6,23 @@ namespace HashTableTask
 {
     class HashTable<T> : ICollection<T>
     {
-        public int Count => throw new NotImplementedException();
+        private List<T>[] items;
+
+        public int Count { get; private set; }
 
         public bool IsReadOnly => throw new NotImplementedException();
+
+        public HashTable() : this(10) { }
+
+        public HashTable(int capacity)
+        {
+            if (capacity <= 0)
+            {
+                throw new ArgumentException($"Parameter value {capacity} is invalid. Hash table capacity must be > 0", nameof(capacity));
+            }
+
+            items = new List<T>[capacity];
+        }
 
         public void Add(T item)
         {
