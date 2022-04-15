@@ -12,6 +12,8 @@ namespace HashTableTask
 
         public bool IsReadOnly => throw new NotImplementedException();
 
+        private int modCount;
+
         public HashTable() : this(10) { }
 
         public HashTable(int capacity)
@@ -48,6 +50,8 @@ namespace HashTableTask
             items[index].Add(item);
 
             Count++;
+
+            modCount++;
         }
 
         public void Clear()
@@ -58,6 +62,8 @@ namespace HashTableTask
             }
 
             Count = 0;
+
+            modCount++;
         }
 
         public bool Contains(T item)
@@ -102,12 +108,19 @@ namespace HashTableTask
 
         public IEnumerator<T> GetEnumerator()
         {
+            int count = modCount;
+
             for (int i = 0; i < items.Length; i++)
             {
                 if (items[i] != null)
                 {
                     for (int j = 0; j < items[i].Count; j++)
                     {
+                        if (count != modCount)
+                        {
+                            throw new InvalidOperationException("The hash table is invalid");
+                        }
+
                         yield return items[i][j];
                     }
                 }
@@ -129,6 +142,8 @@ namespace HashTableTask
             }
 
             Count--;
+
+            modCount++;
 
             return items[index].Remove(item);
         }
