@@ -1,0 +1,6 @@
+﻿namespace TreeTask
+{
+    class TreeNode
+    {
+    }
+}
