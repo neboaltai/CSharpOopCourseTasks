@@ -10,6 +10,8 @@ namespace ArrayListTask
 
         public int Count { get; private set; }
 
+        private int modCount;
+
         public int Capacity
         {
             get
@@ -98,6 +100,8 @@ namespace ArrayListTask
             items[Count] = item;
 
             Count++;
+
+            modCount++;
         }
 
         public void Clear()
@@ -105,6 +109,8 @@ namespace ArrayListTask
             Array.Clear(items, 0, Count);
 
             Count = 0;
+
+            modCount++;
         }
 
         public bool Contains(T item)
@@ -144,8 +150,15 @@ namespace ArrayListTask
 
         public IEnumerator<T> GetEnumerator()
         {
+            int count = modCount;
+
             for (int i = 0; i < Count; i++)
             {
+                if (count != modCount)
+                {
+                    throw new InvalidOperationException("The list is invalid");
+                }
+
                 yield return items[i];
             }
         }
@@ -201,6 +214,8 @@ namespace ArrayListTask
             items[index] = item;
 
             Count++;
+
+            modCount++;
         }
 
         public bool Remove(T item)
@@ -242,6 +257,8 @@ namespace ArrayListTask
             items[Count - 1] = default(T);
 
             Count--;
+
+            modCount++;
         }
 
         public void TrimExcess()
