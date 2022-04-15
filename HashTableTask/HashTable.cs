@@ -38,7 +38,16 @@ namespace HashTableTask
 
         public void Add(T item)
         {
-            throw new NotImplementedException();
+            int index = GetIndex(item);
+
+            if (items[index] is null)
+            {
+                items[index] = new List<T>(1);
+            }
+
+            items[index].Add(item);
+
+            Count++;
         }
 
         public void Clear()
