@@ -121,7 +121,16 @@ namespace HashTableTask
 
         public bool Remove(T item)
         {
-            throw new NotImplementedException();
+            int index = GetIndex(item);
+
+            if (items[index] is null)
+            {
+                return false;
+            }
+
+            Count--;
+
+            return items[index].Remove(item);
         }
     }
 }
