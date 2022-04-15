@@ -62,7 +62,14 @@ namespace HashTableTask
 
         public bool Contains(T item)
         {
-            throw new NotImplementedException();
+            int index = GetIndex(item);
+
+            if (items[index] != null)
+            {
+                return items[index].Contains(item);
+            }
+
+            return false;
         }
 
         public void CopyTo(T[] array, int arrayIndex)
