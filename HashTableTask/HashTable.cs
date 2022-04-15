@@ -52,7 +52,12 @@ namespace HashTableTask
 
         public void Clear()
         {
-            throw new NotImplementedException();
+            for (int i = 0; i < items.Length; i++)
+            {
+                items[i] = null;
+            }
+
+            Count = 0;
         }
 
         public bool Contains(T item)
