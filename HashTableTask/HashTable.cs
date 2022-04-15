@@ -132,5 +132,10 @@ namespace HashTableTask
 
             return items[index].Remove(item);
         }
+
+        public override string ToString()
+        {
+            return $"[{string.Join(", ", this)}]";
+        }
     }
 }
