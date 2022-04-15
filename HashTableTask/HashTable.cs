@@ -74,7 +74,30 @@ namespace HashTableTask
 
         public void CopyTo(T[] array, int arrayIndex)
         {
-            throw new NotImplementedException();
+            if (array is null)
+            {
+                throw new ArgumentNullException(nameof(array), "Array cannot be null");
+            }
+
+            if (arrayIndex < 0 || arrayIndex > array.Length - 1)
+            {
+                throw new ArgumentOutOfRangeException(nameof(arrayIndex), $"Parameter value {arrayIndex} is invalid. The index must be between 0 and {array.Length - 1} inclusive");
+            }
+
+            if (array.Length - arrayIndex < Count)
+            {
+                throw new InvalidOperationException("Destination array was not long enough. Check the destination index, length, and the array's lower bounds");
+            }
+
+            foreach (List<T> item in items)
+            {
+                if (item != null)
+                {
+                    item.CopyTo(array, arrayIndex);
+
+                    arrayIndex += item.Count;
+                }
+            }
         }
 
         public IEnumerator<T> GetEnumerator()
