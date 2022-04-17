@@ -25,13 +25,9 @@ namespace ArrayListTask
                     throw new InvalidOperationException($"Invalid value. The value {value} must not be less than the count of items ({Count})");
                 }
 
-                if (value > Count)
+                if (value >= Count)
                 {
-                    T[] old = items;
-
-                    items = new T[value];
-
-                    Array.Copy(old, items, old.Length);
+                    Array.Resize(ref items, value);
                 }
             }
         }
@@ -49,10 +45,12 @@ namespace ArrayListTask
                 CheckIndex(index, Count - 1);
 
                 items[index] = value;
+
+                modCount++;
             }
         }
 
-        public bool IsReadOnly => throw new NotImplementedException();
+        public bool IsReadOnly => false;
 
         public List() : this(10) { }
 
@@ -60,7 +58,7 @@ namespace ArrayListTask
         {
             if (capacity < 0)
             {
-                throw new ArgumentException($"Parameter value {capacity} is invalid. List capacity must not be negative", nameof(capacity));
+                throw new ArgumentException($"Invalid capacity. List capacity ({capacity}) must not be negative", nameof(capacity));
             }
 
             items = new T[capacity];
@@ -70,7 +68,7 @@ namespace ArrayListTask
         {
             if (index < 0 || index > maxIndex)
             {
-                throw new ArgumentOutOfRangeException(nameof(index), $"Parameter value {index} is invalid. The index must be between 0 and {maxIndex} inclusive");
+                throw new ArgumentOutOfRangeException(nameof(index), $"Invalid index. The index ({index}) must be between 0 and {maxIndex} inclusive");
             }
         }
 
@@ -79,15 +77,11 @@ namespace ArrayListTask
             if (Capacity == 0)
             {
                 items = new T[1];
-            }
-            else
-            {
-                T[] old = items;
 
-                items = new T[old.Length * 2];
-
-                Array.Copy(old, items, old.Length);
+                return;
             }
+
+            Capacity = items.Length * 2;
         }
 
         public void Add(T item)
@@ -115,25 +109,12 @@ namespace ArrayListTask
 
         public bool Contains(T item)
         {
-            for (int i = 0; i < Count; i++)
+            if (IndexOf(item) == -1)
             {
-                if (item is null)
-                {
-                    if (items[i] is null)
-                    {
-                        return true;
-                    }
-
-                    continue;
-                }
-
-                if (item.Equals(items[i]))
-                {
-                    return true;
-                }
+                return false;
             }
 
-            return false;
+            return true;
         }
 
         public void CopyTo(T[] array, int arrayIndex)
@@ -145,18 +126,23 @@ namespace ArrayListTask
 
             CheckIndex(arrayIndex, array.Length - 1);
 
-            Array.Copy(items, 0, array, arrayIndex, Math.Min(array.Length - arrayIndex, Count));
+            if (array.Length - arrayIndex < Count)
+            {
+                throw new ArgumentException($"The count of elements ({Count}) in the list is greater than the specified count of elements ({array.Length - arrayIndex}) in the array", nameof(array));
+            }
+
+            Array.Copy(items, 0, array, arrayIndex, Count);
         }
 
         public IEnumerator<T> GetEnumerator()
         {
-            int count = modCount;
+            int modNumber = modCount;
 
             for (int i = 0; i < Count; i++)
             {
-                if (count != modCount)
+                if (modNumber != modCount)
                 {
-                    throw new InvalidOperationException("The list is invalid");
+                    throw new InvalidOperationException("The list has been modified");
                 }
 
                 yield return items[i];
@@ -172,17 +158,7 @@ namespace ArrayListTask
         {
             for (int i = 0; i < Count; i++)
             {
-                if (item is null)
-                {
-                    if (items[i] is null)
-                    {
-                        return i;
-                    }
-
-                    continue;
-                }
-
-                if (item.Equals(items[i]))
+                if (Equals(item, items[i]))
                 {
                     return i;
                 }
@@ -207,9 +183,7 @@ namespace ArrayListTask
                 IncreaseCapacity();
             }
 
-            T[] old = items;
-
-            Array.Copy(old, index, items, index + 1, Count - index);
+            Array.Copy(items, index, items, index + 1, Count - index);
 
             items[index] = item;
 
@@ -220,29 +194,16 @@ namespace ArrayListTask
 
         public bool Remove(T item)
         {
-            for (int i = 0; i < Count; i++)
+            int index = IndexOf(item);
+
+            if (index == -1)
             {
-                if (item is null)
-                {
-                    if (items[i] is null)
-                    {
-                        RemoveAt(i);
-
-                        return true;
-                    }
-
-                    continue;
-                }
-
-                if (item.Equals(items[i]))
-                {
-                    RemoveAt(i);
-
-                    return true;
-                }
+                return false;
             }
 
-            return false;
+            RemoveAt(index);
+
+            return true;
         }
 
         public void RemoveAt(int index)
@@ -254,7 +215,7 @@ namespace ArrayListTask
                 Array.Copy(items, index + 1, items, index, Count - index - 1);
             }
 
-            items[Count - 1] = default(T);
+            items[Count - 1] = default;
 
             Count--;
 
@@ -263,13 +224,9 @@ namespace ArrayListTask
 
         public void TrimExcess()
         {
-            if (Capacity > Count)
+            if (Capacity > Count * 1.1)
             {
-                T[] result = new T[Count];
-
-                Array.Copy(items, result, Count);
-
-                items = result;
+                Capacity = Count;
             }
         }
 

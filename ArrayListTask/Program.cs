@@ -16,9 +16,10 @@ namespace ArrayListTask
 
             list.Add(4);
 
-            list.Insert(list.Count - 1, 5);
+            Console.Write($"Add the integer 4 to the end and then insert integer 5 at index {list.Count - 1}: ");
 
-            Console.WriteLine($"Add the integer 4 to the end and then insert integer 5 at index {list.Count - 1}: {list}");
+            list.Insert(list.Count - 1, 5);
+            Console.WriteLine(list);
 
             Console.WriteLine("List capacity: " + list.Capacity);
 
@@ -45,7 +46,7 @@ namespace ArrayListTask
             list.Capacity += list[0];
             Console.WriteLine($"Increase capacity by {list[0]}: {list.Capacity}");
 
-            int[] integers = new int[4];
+            int[] integers = new int[6];
             Console.WriteLine("Array size: " + integers.Length);
 
             list.CopyTo(integers, 1);
