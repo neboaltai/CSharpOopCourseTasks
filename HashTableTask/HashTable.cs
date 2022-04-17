@@ -10,7 +10,7 @@ namespace HashTableTask
 
         public int Count { get; private set; }
 
-        public bool IsReadOnly => throw new NotImplementedException();
+        public bool IsReadOnly => false;
 
         private int modCount;
 
@@ -20,7 +20,7 @@ namespace HashTableTask
         {
             if (capacity <= 0)
             {
-                throw new ArgumentException($"Parameter value {capacity} is invalid. Hash table capacity must be > 0", nameof(capacity));
+                throw new ArgumentException($"Invalid capacity. Hash table capacity ({capacity}) must be > 0", nameof(capacity));
             }
 
             items = new List<T>[capacity];
@@ -56,10 +56,7 @@ namespace HashTableTask
 
         public void Clear()
         {
-            for (int i = 0; i < items.Length; i++)
-            {
-                items[i] = null;
-            }
+            Array.Clear(items, 0, items.Length);
 
             Count = 0;
 
@@ -92,7 +89,7 @@ namespace HashTableTask
 
             if (array.Length - arrayIndex < Count)
             {
-                throw new InvalidOperationException("Destination array was not long enough. Check the destination index, length, and the array's lower bounds");
+                throw new ArgumentException($"The count of elements ({Count}) in the list is greater than the specified count of elements ({array.Length - arrayIndex}) in the array", nameof(array));
             }
 
             foreach (List<T> item in items)
@@ -108,7 +105,7 @@ namespace HashTableTask
 
         public IEnumerator<T> GetEnumerator()
         {
-            int count = modCount;
+            int modNumber = modCount;
 
             for (int i = 0; i < items.Length; i++)
             {
@@ -116,9 +113,9 @@ namespace HashTableTask
                 {
                     for (int j = 0; j < items[i].Count; j++)
                     {
-                        if (count != modCount)
+                        if (modNumber != modCount)
                         {
-                            throw new InvalidOperationException("The hash table is invalid");
+                            throw new InvalidOperationException("The hash table has been modified");
                         }
 
                         yield return items[i][j];
