@@ -19,7 +19,8 @@ namespace ListTask
 
             Console.WriteLine("Значение первого элемента: " + companies.GetFirst());
 
-            Console.WriteLine($"Замена значения \"{companies[1] = "CFT"}\" второго элемента значением \"{companies[1]}\"");
+            companies[1] = "CFT";
+            Console.WriteLine($"Замена значения второго элемента значением \"{companies[1]}\"");
 
             Console.WriteLine("Удалён третий элемент со значением: " + companies.RemoveAt(2));
 

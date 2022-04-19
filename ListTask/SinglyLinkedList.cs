@@ -13,15 +13,15 @@ namespace ListTask
         {
             get
             {
-                CheckOutOfBounds(index, 0, Count - 1);
+                CheckIndex(index, Count - 1);
 
-                return IterateUntil(index).Data;
+                return GetNode(index).Data;
             }
             set
             {
-                CheckOutOfBounds(index, 0, Count - 1);
+                CheckIndex(index, Count - 1);
 
-                IterateUntil(index).Data = value;
+                GetNode(index).Data = value;
             }
         }
 
@@ -31,21 +31,18 @@ namespace ListTask
         {
             head = new ListNode<T>(data);
 
-            for (ListNode<T> node = head; node != null; node = node.Next)
-            {
-                Count++;
-            }
+            Count++;
         }
 
-        private void CheckOutOfBounds(int index, int start, int end)
+        private static void CheckIndex(int index, int maxIndex)
         {
-            if (index < start || index > end)
+            if (index < 0 || index > maxIndex)
             {
-                throw new ArgumentOutOfRangeException(nameof(index), $"Parameter value {index} is invalid. The index must be between {start} and {end} inclusive");
+                throw new ArgumentOutOfRangeException(nameof(index), $"Invalid index. The index ({index}) must be between 0 and {maxIndex} inclusive");
             }
         }
 
-        private ListNode<T> IterateUntil(int index)
+        private ListNode<T> GetNode(int index)
         {
             ListNode<T> node = head;
 
@@ -69,14 +66,14 @@ namespace ListTask
 
         public T RemoveAt(int index)
         {
-            CheckOutOfBounds(index, 0, Count - 1);
+            CheckIndex(index, Count - 1);
 
             if (index == 0)
             {
                 return RemoveFirst();
             }
 
-            ListNode<T> previousNode = IterateUntil(index - 1);
+            ListNode<T> previousNode = GetNode(index - 1);
 
             ListNode<T> currentNode = previousNode.Next;
 
@@ -91,16 +88,14 @@ namespace ListTask
 
         public void AddFirst(T data)
         {
-            ListNode<T> node = new ListNode<T>(data, head);
-
-            head = node;
+            head = new ListNode<T>(data, head);
 
             Count++;
         }
 
         public void Add(int index, T data)
         {
-            CheckOutOfBounds(index, 0, Count);
+            CheckIndex(index, Count);
 
             if (index == 0)
             {
@@ -109,11 +104,9 @@ namespace ListTask
                 return;
             }
 
-            ListNode<T> previousNode = IterateUntil(index - 1);
+            ListNode<T> previousNode = GetNode(index - 1);
 
-            ListNode<T> addedNode = new ListNode<T>(data, previousNode.Next);
-
-            previousNode.Next = addedNode;
+            previousNode.Next = new ListNode<T>(data, previousNode.Next);
 
             Count++;
         }
@@ -122,7 +115,7 @@ namespace ListTask
         {
             for (ListNode<T> currentNode = head, previousNode = null; currentNode != null; previousNode = currentNode, currentNode = currentNode.Next)
             {
-                if (data.Equals(currentNode.Data))
+                if (Equals(data, currentNode.Data))
                 {
                     if (previousNode == null)
                     {
@@ -193,11 +186,18 @@ namespace ListTask
                 resultNode = resultNode.Next;
             }
 
+            result.Count = Count;
+
             return result;
         }
 
         public override string ToString()
         {
+            if (head is null)
+            {
+                return "[]";
+            }
+
             StringBuilder result = new StringBuilder("[");
 
             for (ListNode<T> node = head; node != null; node = node.Next)
@@ -205,10 +205,7 @@ namespace ListTask
                 result.Append(node.Data).Append(", ");
             }
 
-            if (head != null)
-            {
-                result.Remove(result.Length - 2, 2);
-            }
+            result.Remove(result.Length - 2, 2);
 
             result.Append("]");
 
