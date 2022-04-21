@@ -54,13 +54,13 @@ namespace Lambdas
             Console.WriteLine();
             Console.WriteLine("Names of persons from 20 to 45 years old in descending order:");
 
-            List<string> from45to20AgePersonNames = persons
+            List<string> from45To20AgePersonNames = persons
                 .Where(person => person.Age >= 20 && person.Age <= 45)
                 .OrderByDescending(person => person.Age)
                 .Select(person => person.Name)
                 .ToList();
 
-            Console.WriteLine(string.Join(", ", from45to20AgePersonNames));
+            Console.WriteLine(string.Join(", ", from45To20AgePersonNames));
         }
     }
 }
