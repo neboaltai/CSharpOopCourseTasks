@@ -6,7 +6,7 @@ namespace HashTableTask
 {
     class HashTable<T> : ICollection<T>
     {
-        private List<T>[] items;
+        private readonly List<T>[] lists;
 
         public int Count { get; private set; }
 
@@ -23,7 +23,7 @@ namespace HashTableTask
                 throw new ArgumentException($"Invalid capacity. Hash table capacity ({capacity}) must be > 0", nameof(capacity));
             }
 
-            items = new List<T>[capacity];
+            lists = new List<T>[capacity];
         }
 
         private int GetIndex(T item)
@@ -32,22 +32,20 @@ namespace HashTableTask
             {
                 return 0;
             }
-            else
-            {
-                return Math.Abs(item.GetHashCode() % items.Length);
-            }
+
+            return Math.Abs(item.GetHashCode() % lists.Length);
         }
 
         public void Add(T item)
         {
             int index = GetIndex(item);
 
-            if (items[index] is null)
+            if (lists[index] is null)
             {
-                items[index] = new List<T>(1);
+                lists[index] = new List<T>(1);
             }
 
-            items[index].Add(item);
+            lists[index].Add(item);
 
             Count++;
 
@@ -56,7 +54,12 @@ namespace HashTableTask
 
         public void Clear()
         {
-            Array.Clear(items, 0, items.Length);
+            if (Count == 0)
+            {
+                return;
+            }
+
+            Array.Clear(lists, 0, lists.Length);
 
             Count = 0;
 
@@ -67,12 +70,7 @@ namespace HashTableTask
         {
             int index = GetIndex(item);
 
-            if (items[index] != null)
-            {
-                return items[index].Contains(item);
-            }
-
-            return false;
+            return lists[index] is null ? false : lists[index].Contains(item);
         }
 
         public void CopyTo(T[] array, int arrayIndex)
@@ -82,7 +80,7 @@ namespace HashTableTask
                 throw new ArgumentNullException(nameof(array), "Array cannot be null");
             }
 
-            if (arrayIndex < 0 || arrayIndex > array.Length - 1)
+            if (arrayIndex < 0 || arrayIndex >= array.Length)
             {
                 throw new ArgumentOutOfRangeException(nameof(arrayIndex), $"Parameter value {arrayIndex} is invalid. The index must be between 0 and {array.Length - 1} inclusive");
             }
@@ -92,7 +90,7 @@ namespace HashTableTask
                 throw new ArgumentException($"The count of elements ({Count}) in the list is greater than the specified count of elements ({array.Length - arrayIndex}) in the array", nameof(array));
             }
 
-            foreach (List<T> item in items)
+            foreach (List<T> item in lists)
             {
                 if (item != null)
                 {
@@ -105,20 +103,20 @@ namespace HashTableTask
 
         public IEnumerator<T> GetEnumerator()
         {
-            int modNumber = modCount;
+            int currentModCount = modCount;
 
-            for (int i = 0; i < items.Length; i++)
+            foreach (List<T> list in lists)
             {
-                if (items[i] != null)
+                if (list != null)
                 {
-                    for (int j = 0; j < items[i].Count; j++)
+                    foreach (T e in list)
                     {
-                        if (modNumber != modCount)
+                        if (currentModCount != modCount)
                         {
                             throw new InvalidOperationException("The hash table has been modified");
                         }
 
-                        yield return items[i][j];
+                        yield return e;
                     }
                 }
             }
@@ -133,16 +131,16 @@ namespace HashTableTask
         {
             int index = GetIndex(item);
 
-            if (items[index] is null)
+            if (lists[index] != null && lists[index].Remove(item))
             {
-                return false;
+                Count--;
+
+                modCount++;
+
+                return true;
             }
 
-            Count--;
-
-            modCount++;
-
-            return items[index].Remove(item);
+            return false;
         }
 
         public override string ToString()
