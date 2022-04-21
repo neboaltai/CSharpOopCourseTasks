@@ -75,9 +75,9 @@ namespace MatrixTask
 
             rows = new Vector[vectors.Length];
 
-            for (int i = 0; i < vectors.Length; i++)
+            foreach (Vector vector in vectors)
             {
-                columnsCount = Math.Max(columnsCount, vectors[i].GetSize());
+                columnsCount = Math.Max(columnsCount, vector.GetSize());
             }
 
             for (int i = 0; i < rows.Length; i++)
@@ -130,7 +130,7 @@ namespace MatrixTask
         {
             CheckIndex(index, RowsCount - 1);
 
-            if (vector.GetSize() != rows[index].GetSize())
+            if (vector.GetSize() != ColumnsCount)
             {
                 throw new ArgumentException($"Parameter value {vector.GetSize()} is invalid. The size of the vector must be equal to the size of the row ({rows[index].GetSize()})", nameof(vector));
             }
@@ -166,9 +166,9 @@ namespace MatrixTask
 
         public void MultiplyByScalar(double number)
         {
-            foreach (Vector e in rows)
+            foreach (Vector row in rows)
             {
-                e.MultiplyByScalar(number);
+                row.MultiplyByScalar(number);
             }
         }
 
