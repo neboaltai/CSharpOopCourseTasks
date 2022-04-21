@@ -100,6 +100,11 @@ namespace ArrayListTask
 
         public void Clear()
         {
+            if (Count == 0)
+            {
+                return;
+            }
+
             Array.Clear(items, 0, Count);
 
             Count = 0;
@@ -109,12 +114,7 @@ namespace ArrayListTask
 
         public bool Contains(T item)
         {
-            if (IndexOf(item) == -1)
-            {
-                return false;
-            }
-
-            return true;
+            return IndexOf(item) == -1 ? false : true;
         }
 
         public void CopyTo(T[] array, int arrayIndex)
@@ -136,16 +136,16 @@ namespace ArrayListTask
 
         public IEnumerator<T> GetEnumerator()
         {
-            int modNumber = modCount;
+            int currentModCount = modCount;
 
-            for (int i = 0; i < Count; i++)
+            foreach (T e in items)
             {
-                if (modNumber != modCount)
+                if (currentModCount != modCount)
                 {
                     throw new InvalidOperationException("The list has been modified");
                 }
 
-                yield return items[i];
+                yield return e;
             }
         }
 
