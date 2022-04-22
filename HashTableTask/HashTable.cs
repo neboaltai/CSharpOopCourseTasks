@@ -8,11 +8,11 @@ namespace HashTableTask
     {
         private readonly List<T>[] lists;
 
+        private int modCount;
+
         public int Count { get; private set; }
 
         public bool IsReadOnly => false;
-
-        private int modCount;
 
         public HashTable() : this(10) { }
 
@@ -70,7 +70,7 @@ namespace HashTableTask
         {
             int index = GetIndex(item);
 
-            return lists[index] is null ? false : lists[index].Contains(item);
+            return lists[index] != null && lists[index].Contains(item);
         }
 
         public void CopyTo(T[] array, int arrayIndex)
@@ -90,20 +90,20 @@ namespace HashTableTask
                 throw new ArgumentException($"The count of elements ({Count}) in the list is greater than the specified count of elements ({array.Length - arrayIndex}) in the array", nameof(array));
             }
 
-            foreach (List<T> item in lists)
+            foreach (List<T> list in lists)
             {
-                if (item != null)
+                if (list != null)
                 {
-                    item.CopyTo(array, arrayIndex);
+                    list.CopyTo(array, arrayIndex);
 
-                    arrayIndex += item.Count;
+                    arrayIndex += list.Count;
                 }
             }
         }
 
         public IEnumerator<T> GetEnumerator()
         {
-            int currentModCount = modCount;
+            int initialModCount = modCount;
 
             foreach (List<T> list in lists)
             {
@@ -111,7 +111,7 @@ namespace HashTableTask
                 {
                     foreach (T e in list)
                     {
-                        if (currentModCount != modCount)
+                        if (initialModCount != modCount)
                         {
                             throw new InvalidOperationException("The hash table has been modified");
                         }
