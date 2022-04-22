@@ -8,9 +8,9 @@ namespace ArrayListTask
     {
         private T[] items;
 
-        public int Count { get; private set; }
-
         private int modCount;
+
+        public int Count { get; private set; }
 
         public int Capacity
         {
