@@ -198,18 +198,18 @@ namespace ListTask
                 return "[]";
             }
 
-            StringBuilder result = new StringBuilder("[");
+            StringBuilder stringBuilder = new StringBuilder("[");
 
             for (ListNode<T> node = head; node != null; node = node.Next)
             {
-                result.Append(node.Data).Append(", ");
+                stringBuilder.Append(node.Data).Append(", ");
             }
 
-            result.Remove(result.Length - 2, 2);
+            stringBuilder.Remove(stringBuilder.Length - 2, 2);
 
-            result.Append("]");
+            stringBuilder.Append("]");
 
-            return result.ToString();
+            return stringBuilder.ToString();
         }
     }
 }
