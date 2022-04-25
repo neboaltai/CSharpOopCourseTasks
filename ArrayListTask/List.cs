@@ -14,10 +14,8 @@ namespace ArrayListTask
 
         public int Capacity
         {
-            get
-            {
-                return items.Length;
-            }
+            get => items.Length;
+
             set
             {
                 if (value < Count)
@@ -25,10 +23,7 @@ namespace ArrayListTask
                     throw new InvalidOperationException($"Invalid value. The value {value} must not be less than the count of items ({Count})");
                 }
 
-                if (value >= Count)
-                {
-                    Array.Resize(ref items, value);
-                }
+                Array.Resize(ref items, value);
             }
         }
 
@@ -114,7 +109,7 @@ namespace ArrayListTask
 
         public bool Contains(T item)
         {
-            return IndexOf(item) == -1 ? false : true;
+            return IndexOf(item) != -1;
         }
 
         public void CopyTo(T[] array, int arrayIndex)
@@ -136,16 +131,16 @@ namespace ArrayListTask
 
         public IEnumerator<T> GetEnumerator()
         {
-            int currentModCount = modCount;
+            int initialModCount = modCount;
 
-            foreach (T e in items)
+            for (int i = 0; i < Count; i++)
             {
-                if (currentModCount != modCount)
+                if (initialModCount != modCount)
                 {
                     throw new InvalidOperationException("The list has been modified");
                 }
 
-                yield return e;
+                yield return items[i];
             }
         }
 
@@ -224,7 +219,7 @@ namespace ArrayListTask
 
         public void TrimExcess()
         {
-            if (Capacity > Count * 1.1)
+            if (Capacity * 0.9 >= Count)
             {
                 Capacity = Count;
             }
