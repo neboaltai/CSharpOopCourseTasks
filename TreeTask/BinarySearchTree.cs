@@ -80,5 +80,48 @@ namespace TreeTask
                 currentNode = currentNode.Right;
             }
         }
+
+        public bool Contains(T data)
+        {
+            if (root is null)
+            {
+                return false;
+            }
+
+            CheckDataComparable();
+
+            TreeNode<T> currentNode = root;
+
+            int sign;
+
+            while (true)
+            {
+                sign = GetSign(currentNode.Data, data);
+
+                if (sign == 0)
+                {
+                    return true;
+                }
+
+                if (sign > 0)
+                {
+                    if (currentNode.Left is null)
+                    {
+                        return false;
+                    }
+
+                    currentNode = currentNode.Left;
+
+                    continue;
+                }
+
+                if (currentNode.Right is null)
+                {
+                    return false;
+                }
+
+                currentNode = currentNode.Right;
+            }
+        }
     }
 }
