@@ -255,5 +255,30 @@ namespace TreeTask
 
             return true;
         }
+
+        public void BypassInBreadth()
+        {
+            Queue<TreeNode<T>> queue = new Queue<TreeNode<T>>(Count / 2 + 1);
+
+            TreeNode<T> node = root;
+
+            queue.Enqueue(node);
+
+            while (queue.Count != 0)
+            {
+                node = queue.Dequeue();
+
+                if (node is null)
+                {
+                    continue;
+                }
+
+                Console.WriteLine(node.Data);
+
+                queue.Enqueue(node.Left);
+
+                queue.Enqueue(node.Right);
+            }
+        }
     }
 }
