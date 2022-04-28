@@ -280,5 +280,30 @@ namespace TreeTask
                 queue.Enqueue(node.Right);
             }
         }
+
+        public void BypassInDepthWithCycle()
+        {
+            Stack<TreeNode<T>> stack = new Stack<TreeNode<T>>();
+
+            TreeNode<T> node = root;
+
+            stack.Push(node);
+
+            while (stack.Count != 0)
+            {
+                node = stack.Pop();
+
+                if (node is null)
+                {
+                    continue;
+                }
+
+                Console.WriteLine(node.Data);
+
+                stack.Push(node.Right);
+
+                stack.Push(node.Left);
+            }
+        }
     }
 }
