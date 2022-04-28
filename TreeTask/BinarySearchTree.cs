@@ -123,5 +123,137 @@ namespace TreeTask
                 currentNode = currentNode.Right;
             }
         }
+
+        public bool Remove(T data)
+        {
+            if (root is null)
+            {
+                return false;
+            }
+
+            CheckDataComparable();
+
+            TreeNode<T> nodeToDelete = root;
+            TreeNode<T> nodeToDeleteParent = null;
+
+            int sign;
+
+            while (true)
+            {
+                sign = GetSign(nodeToDelete.Data, data);
+
+                if (sign > 0)
+                {
+                    if (nodeToDelete.Left is null)
+                    {
+                        return false;
+                    }
+
+                    nodeToDeleteParent = nodeToDelete;
+                    nodeToDelete = nodeToDelete.Left;
+
+                    continue;
+                }
+
+                if (sign < 0)
+                {
+                    if (nodeToDelete.Right is null)
+                    {
+                        return false;
+                    }
+
+                    nodeToDeleteParent = nodeToDelete;
+                    nodeToDelete = nodeToDelete.Right;
+
+                    continue;
+                }
+
+                break;
+            }
+
+            if (nodeToDelete.Left is null)
+            {
+                if (nodeToDelete == root)
+                {
+                    root = nodeToDelete.Right;
+                }
+                else
+                {
+                    if (nodeToDeleteParent.Left == nodeToDelete)
+                    {
+                        nodeToDeleteParent.Left = nodeToDelete.Right;
+                    }
+                    else
+                    {
+                        nodeToDeleteParent.Right = nodeToDelete.Right;
+                    }
+                }
+
+                Count--;
+
+                return true;
+            }
+
+            if (nodeToDelete.Right is null)
+            {
+                if (nodeToDelete == root)
+                {
+                    root = nodeToDelete.Left;
+                }
+                else
+                {
+                    if (nodeToDeleteParent.Left == nodeToDelete)
+                    {
+                        nodeToDeleteParent.Left = nodeToDelete.Left;
+                    }
+                    else
+                    {
+                        nodeToDeleteParent.Right = nodeToDelete.Left;
+                    }
+                }
+
+                Count--;
+
+                return true;
+            }
+
+            TreeNode<T> minLeftNode = nodeToDelete.Right;
+            TreeNode<T> minLeftNodeParent = null;
+
+            while (minLeftNode.Left != null)
+            {
+                minLeftNodeParent = minLeftNode;
+                minLeftNode = minLeftNode.Left;
+            }
+
+            if (minLeftNode != nodeToDelete.Right)
+            {
+                minLeftNodeParent.Left = minLeftNode.Right;
+
+                minLeftNode.Right = nodeToDelete.Right;
+            }
+
+            minLeftNode.Left = nodeToDelete.Left;
+
+            if (nodeToDelete == root)
+            {
+                root = minLeftNode;
+            }
+            else
+            {
+                if (nodeToDeleteParent.Left == nodeToDelete)
+                {
+                    nodeToDeleteParent.Left = minLeftNode;
+                }
+                else
+                {
+                    nodeToDeleteParent.Right = minLeftNode;
+                }
+            }
+
+            Count--;
+
+            return true;
+        }
     }
 }
