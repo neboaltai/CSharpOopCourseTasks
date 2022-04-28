@@ -305,5 +305,24 @@ namespace TreeTask
                 stack.Push(node.Left);
             }
         }
+
+        public void BypassInDepthWithRecursion()
+        {
+            BypassInDepthWithRecursion(root);
+        }
+
+        private static void BypassInDepthWithRecursion(TreeNode<T> node)
+        {
+            if (node is null)
+            {
+                return;
+            }
+
+            Console.WriteLine(node.Data);
+
+            BypassInDepthWithRecursion(node.Left);
+
+            BypassInDepthWithRecursion(node.Right);
+        }
     }
 }
