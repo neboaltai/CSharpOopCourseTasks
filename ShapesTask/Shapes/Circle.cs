@@ -2,7 +2,7 @@
 
 namespace ShapesTask.Shapes
 {
-    class Circle : IShape
+    public class Circle : IShape
     {
         public double Diameter { get; }
 
@@ -33,7 +33,7 @@ namespace ShapesTask.Shapes
 
         public override string ToString()
         {
-            return $"окружность диаметром {Diameter} см";
+            return $"circle diameter {Diameter} cm";
         }
 
         public override int GetHashCode()

@@ -1,6 +1,6 @@
 ﻿namespace ShapesTask.Shapes
 {
-    class Square : IShape
+    public class Square : IShape
     {
         public double SideLength { get; }
 
@@ -31,7 +31,7 @@
 
         public override string ToString()
         {
-            return $"квадрат со стороной {SideLength} см";
+            return $"square side {SideLength} cm";
         }
 
         public override int GetHashCode()

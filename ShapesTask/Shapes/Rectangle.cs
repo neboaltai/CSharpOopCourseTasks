@@ -1,6 +1,6 @@
 ﻿namespace ShapesTask.Shapes
 {
-    class Rectangle : IShape
+    public class Rectangle : IShape
     {
         public double Width { get; }
 
@@ -34,7 +34,7 @@
 
         public override string ToString()
         {
-            return $"прямоугольник шириной {Width} см, высотой {Height} см";
+            return $"rectangle width {Width} cm, height {Height} cm";
         }
 
         public override int GetHashCode()

@@ -2,7 +2,7 @@
 
 namespace ShapesTask.Shapes
 {
-    class Triangle : IShape
+    public class Triangle : IShape
     {
         private readonly double sideA;
         private readonly double sideB;
@@ -64,7 +64,7 @@ namespace ShapesTask.Shapes
 
         public override string ToString()
         {
-            return $"треугольник со сторонами A = {sideA:f2} см, B = {sideB:f2} см, C = {sideC:f2} см";
+            return $"triangle sides A = {sideA:f2} cm, B = {sideB:f2} cm, C = {sideC:f2} cm";
         }
 
         public override int GetHashCode()

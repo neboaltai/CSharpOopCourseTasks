@@ -2,7 +2,7 @@
 
 namespace ShapesTask.Comparers
 {
-    class PerimeterComparer : IComparer<IShape>
+    public class PerimeterComparer : IComparer<IShape>
     {
         public int Compare(IShape shape1, IShape shape2)
         {
