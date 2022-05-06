@@ -1,8 +1,7 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using Temperature.Model;
+using Temperature.Model.Scales;
 
 namespace Temperature
 {
@@ -14,10 +13,14 @@ namespace Temperature
         [STAThread]
         static void Main()
         {
+            IScale[] scales = { new Celsius(), new Kelvin(), new Fahrenheit() };
+
+            TemperatureConverter temperatureConverter = new TemperatureConverter(scales);
+
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm());
+            Application.Run(new MainForm(temperatureConverter));
         }
     }
 }
