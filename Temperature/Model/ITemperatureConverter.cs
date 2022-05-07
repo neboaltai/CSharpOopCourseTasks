@@ -1,6 +1,4 @@
-﻿using Temperature.Model;
-
-namespace Temperature
+﻿namespace Temperature.Model
 {
     public interface ITemperatureConverter
     {
