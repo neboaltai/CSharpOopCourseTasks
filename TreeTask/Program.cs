@@ -7,6 +7,11 @@ namespace TreeTask
 {
     class Program
     {
+        private static void Print(IShape shape)
+        {
+            Console.WriteLine(shape);
+        }
+
         static void Main(string[] args)
         {
             BinarySearchTree<IShape> shapesTree = new BinarySearchTree<IShape>(new Circle(4.5), new AreaComparer());
@@ -26,18 +31,13 @@ namespace TreeTask
             Console.WriteLine();
 
             Console.WriteLine("Bypass in breadth:");
-            
-            shapesTree.BypassInBreadth();
+
+            shapesTree.BypassInBreadth(Print);
             Console.WriteLine();
 
             Console.WriteLine("Bypass in depth with cycle:");
 
-            shapesTree.BypassInDepthWithCycle();
-            Console.WriteLine();
-
-            Console.WriteLine("Bypass in depth with recursion:");
-
-            shapesTree.BypassInDepthWithRecursion();
+            shapesTree.BypassInDepthWithCycle(Print);
             Console.WriteLine();
 
             IShape shape = new Circle(4.5);
@@ -46,6 +46,11 @@ namespace TreeTask
             Console.WriteLine("Remove shape: " + shape);
             Console.WriteLine("Shape removed: " + shapesTree.Remove(shape));
             Console.WriteLine("Count of shapes remaining: " + shapesTree.Count);
+            Console.WriteLine();
+
+            Console.WriteLine("Bypass in depth with recursion:");
+
+            shapesTree.BypassInDepthWithRecursion(Print);
         }
     }
 }

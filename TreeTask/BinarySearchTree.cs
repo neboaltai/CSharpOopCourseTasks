@@ -15,6 +15,8 @@ namespace TreeTask
 
         public BinarySearchTree(T data) : this(data, null) { }
 
+        public BinarySearchTree(IComparer<T> comparer) : this(default, comparer) { }
+
         public BinarySearchTree(T data, IComparer<T> comparer)
         {
             root = new TreeNode<T>(data);
@@ -22,17 +24,26 @@ namespace TreeTask
             this.comparer = comparer;
         }
 
-        private void CheckDataComparable()
+        private int Compare(T data1, T data2)
         {
-            if (comparer is null && root.Data as IComparable<T> is null)
+            if (data1 is null)
+            {
+                return data2 is null ? 0 : -1;
+            }
+
+            if (comparer != null)
+            {
+                return comparer.Compare(data1, data2);
+            }
+
+            IComparable<T> comparableData = data1 as IComparable<T>;
+
+            if (comparableData is null)
             {
                 throw new InvalidOperationException("Data cannot be compared");
             }
-        }
 
-        private int GetSign(T data1, T data2)
-        {
-            return comparer != null ? comparer.Compare(data1, data2) : (data1 as IComparable<T>).CompareTo(data2);
+            return comparableData.CompareTo(data2);
         }
 
         public void Add(T data)
@@ -46,13 +57,11 @@ namespace TreeTask
                 return;
             }
 
-            CheckDataComparable();
-
             TreeNode<T> currentNode = root;
 
             while (true)
             {
-                if (GetSign(currentNode.Data, data) > 0)
+                if (Compare(data, currentNode.Data) < 0)
                 {
                     if (currentNode.Left is null)
                     {
@@ -88,22 +97,18 @@ namespace TreeTask
                 return false;
             }
 
-            CheckDataComparable();
-
             TreeNode<T> currentNode = root;
 
-            int sign;
-
-            while (true)
+            for (int sign; ;)
             {
-                sign = GetSign(currentNode.Data, data);
+                sign = Compare(data, currentNode.Data);
 
                 if (sign == 0)
                 {
                     return true;
                 }
 
-                if (sign > 0)
+                if (sign < 0)
                 {
                     if (currentNode.Left is null)
                     {
@@ -131,39 +136,35 @@ namespace TreeTask
                 return false;
             }
 
-            CheckDataComparable();
+            TreeNode<T> nodeToRemove = root;
+            TreeNode<T> nodeToRemoveParent = null;
 
-            TreeNode<T> nodeToDelete = root;
-            TreeNode<T> nodeToDeleteParent = null;
-
-            int sign;
-
-            while (true)
+            for (int sign; ;)
             {
-                sign = GetSign(nodeToDelete.Data, data);
+                sign = Compare(data, nodeToRemove.Data);
 
-                if (sign > 0)
+                if (sign < 0)
                 {
-                    if (nodeToDelete.Left is null)
+                    if (nodeToRemove.Left is null)
                     {
                         return false;
                     }
 
-                    nodeToDeleteParent = nodeToDelete;
-                    nodeToDelete = nodeToDelete.Left;
+                    nodeToRemoveParent = nodeToRemove;
+                    nodeToRemove = nodeToRemove.Left;
 
                     continue;
                 }
 
-                if (sign < 0)
+                if (sign > 0)
                 {
-                    if (nodeToDelete.Right is null)
+                    if (nodeToRemove.Right is null)
                     {
                         return false;
                     }
 
-                    nodeToDeleteParent = nodeToDelete;
-                    nodeToDelete = nodeToDelete.Right;
+                    nodeToRemoveParent = nodeToRemove;
+                    nodeToRemove = nodeToRemove.Right;
 
                     continue;
                 }
@@ -171,21 +172,44 @@ namespace TreeTask
                 break;
             }
 
-            if (nodeToDelete.Left is null)
+            if (nodeToRemove.Left is null)
             {
-                if (nodeToDelete == root)
+                if (nodeToRemove.Right is null)
                 {
-                    root = nodeToDelete.Right;
-                }
-                else
-                {
-                    if (nodeToDeleteParent.Left == nodeToDelete)
+                    if (nodeToRemove == root)
                     {
-                        nodeToDeleteParent.Left = nodeToDelete.Right;
+                        root = null;
                     }
                     else
                     {
-                        nodeToDeleteParent.Right = nodeToDelete.Right;
+                        if (nodeToRemoveParent.Left == nodeToRemove)
+                        {
+                            nodeToRemoveParent.Left = null;
+                        }
+                        else
+                        {
+                            nodeToRemoveParent.Right = null;
+                        }
+                    }
+
+                    Count--;
+
+                    return true;
+                }
+
+                if (nodeToRemove == root)
+                {
+                    root = nodeToRemove.Right;
+                }
+                else
+                {
+                    if (nodeToRemoveParent.Left == nodeToRemove)
+                    {
+                        nodeToRemoveParent.Left = nodeToRemove.Right;
+                    }
+                    else
+                    {
+                        nodeToRemoveParent.Right = nodeToRemove.Right;
                     }
                 }
 
@@ -194,21 +218,21 @@ namespace TreeTask
                 return true;
             }
 
-            if (nodeToDelete.Right is null)
+            if (nodeToRemove.Right is null)
             {
-                if (nodeToDelete == root)
+                if (nodeToRemove == root)
                 {
-                    root = nodeToDelete.Left;
+                    root = nodeToRemove.Left;
                 }
                 else
                 {
-                    if (nodeToDeleteParent.Left == nodeToDelete)
+                    if (nodeToRemoveParent.Left == nodeToRemove)
                     {
-                        nodeToDeleteParent.Left = nodeToDelete.Left;
+                        nodeToRemoveParent.Left = nodeToRemove.Left;
                     }
                     else
                     {
-                        nodeToDeleteParent.Right = nodeToDelete.Left;
+                        nodeToRemoveParent.Right = nodeToRemove.Left;
                     }
                 }
 
@@ -217,7 +241,7 @@ namespace TreeTask
                 return true;
             }
 
-            TreeNode<T> minLeftNode = nodeToDelete.Right;
+            TreeNode<T> minLeftNode = nodeToRemove.Right;
             TreeNode<T> minLeftNodeParent = null;
 
             while (minLeftNode.Left != null)
@@ -226,28 +250,28 @@ namespace TreeTask
                 minLeftNode = minLeftNode.Left;
             }
 
-            if (minLeftNode != nodeToDelete.Right)
+            if (minLeftNode != nodeToRemove.Right)
             {
                 minLeftNodeParent.Left = minLeftNode.Right;
 
-                minLeftNode.Right = nodeToDelete.Right;
+                minLeftNode.Right = nodeToRemove.Right;
             }
 
-            minLeftNode.Left = nodeToDelete.Left;
+            minLeftNode.Left = nodeToRemove.Left;
 
-            if (nodeToDelete == root)
+            if (nodeToRemove == root)
             {
                 root = minLeftNode;
             }
             else
             {
-                if (nodeToDeleteParent.Left == nodeToDelete)
+                if (nodeToRemoveParent.Left == nodeToRemove)
                 {
-                    nodeToDeleteParent.Left = minLeftNode;
+                    nodeToRemoveParent.Left = minLeftNode;
                 }
                 else
                 {
-                    nodeToDeleteParent.Right = minLeftNode;
+                    nodeToRemoveParent.Right = minLeftNode;
                 }
             }
 
@@ -256,73 +280,87 @@ namespace TreeTask
             return true;
         }
 
-        public void BypassInBreadth()
+        public void BypassInBreadth(Action<T> action)
         {
-            Queue<TreeNode<T>> queue = new Queue<TreeNode<T>>(Count / 2 + 1);
-
-            TreeNode<T> node = root;
-
-            queue.Enqueue(node);
-
-            while (queue.Count != 0)
-            {
-                node = queue.Dequeue();
-
-                if (node is null)
-                {
-                    continue;
-                }
-
-                Console.WriteLine(node.Data);
-
-                queue.Enqueue(node.Left);
-
-                queue.Enqueue(node.Right);
-            }
-        }
-
-        public void BypassInDepthWithCycle()
-        {
-            Stack<TreeNode<T>> stack = new Stack<TreeNode<T>>();
-
-            TreeNode<T> node = root;
-
-            stack.Push(node);
-
-            while (stack.Count != 0)
-            {
-                node = stack.Pop();
-
-                if (node is null)
-                {
-                    continue;
-                }
-
-                Console.WriteLine(node.Data);
-
-                stack.Push(node.Right);
-
-                stack.Push(node.Left);
-            }
-        }
-
-        public void BypassInDepthWithRecursion()
-        {
-            BypassInDepthWithRecursion(root);
-        }
-
-        private static void BypassInDepthWithRecursion(TreeNode<T> node)
-        {
-            if (node is null)
+            if (root is null)
             {
                 return;
             }
 
-            Console.WriteLine(node.Data);
+            Queue<TreeNode<T>> queue = new Queue<TreeNode<T>>(Count / 2 + 1);
 
-            BypassInDepthWithRecursion(node.Left);
+            queue.Enqueue(root);
 
-            BypassInDepthWithRecursion(node.Right);
+            for (TreeNode<T> node; queue.Count != 0;)
+            {
+                node = queue.Dequeue();
+
+                action(node.Data);
+
+                if (node.Left != null)
+                {
+                    queue.Enqueue(node.Left);
+                }
+
+                if (node.Right != null)
+                {
+                    queue.Enqueue(node.Right);
+                }
+            }
+        }
+
+        public void BypassInDepthWithCycle(Action<T> action)
+        {
+            if (root is null)
+            {
+                return;
+            }
+
+            Stack<TreeNode<T>> stack = new Stack<TreeNode<T>>();
+
+            stack.Push(root);
+
+            for (TreeNode<T> node; stack.Count != 0;)
+            {
+                node = stack.Pop();
+
+                action(node.Data);
+
+                if (node.Right != null)
+                {
+                    stack.Push(node.Right);
+                }
+
+                if (node.Left != null)
+                {
+                    stack.Push(node.Left);
+                }
+            }
+        }
+
+        public void BypassInDepthWithRecursion(Action<T> action)
+        {
+            if (root is null)
+            {
+                return;
+            }
+
+            BypassInDepthWithRecursion(root, action);
+        }
+
+        private static void BypassInDepthWithRecursion(TreeNode<T> node, Action<T> action)
+        {
+            action(node.Data);
+
+            if (node.Left != null)
+            {
+                BypassInDepthWithRecursion(node.Left, action);
+            }
+
+            if (node.Right != null)
+            {
+                BypassInDepthWithRecursion(node.Right, action);
+            }
         }
     }
 }
