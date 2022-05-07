@@ -15,7 +15,7 @@ namespace Temperature
         {
             IScale[] scales = { new Celsius(), new Kelvin(), new Fahrenheit() };
 
-            TemperatureConverter temperatureConverter = new TemperatureConverter(scales);
+            ITemperatureConverter temperatureConverter = new TemperatureConverter(scales);
 
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();

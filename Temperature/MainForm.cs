@@ -6,14 +6,14 @@ namespace Temperature
 {
     public partial class MainForm : Form
     {
-        private readonly TemperatureConverter temperatureConverter;
+        private readonly ITemperatureConverter temperatureConverter;
 
         public MainForm()
         {
             InitializeComponent();
         }
 
-        public MainForm(TemperatureConverter temperatureConverter) : this()
+        public MainForm(ITemperatureConverter temperatureConverter) : this()
         {
             this.temperatureConverter = temperatureConverter;
         }

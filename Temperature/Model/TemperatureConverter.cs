@@ -2,7 +2,7 @@
 
 namespace Temperature.Model
 {
-    public class TemperatureConverter
+    public class TemperatureConverter : ITemperatureConverter
     {
         public IScale[] Scales { get; }
 
