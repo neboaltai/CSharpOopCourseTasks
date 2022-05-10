@@ -174,29 +174,6 @@ namespace TreeTask
 
             if (nodeToRemove.Left is null)
             {
-                if (nodeToRemove.Right is null)
-                {
-                    if (nodeToRemove == root)
-                    {
-                        root = null;
-                    }
-                    else
-                    {
-                        if (nodeToRemoveParent.Left == nodeToRemove)
-                        {
-                            nodeToRemoveParent.Left = null;
-                        }
-                        else
-                        {
-                            nodeToRemoveParent.Right = null;
-                        }
-                    }
-
-                    Count--;
-
-                    return true;
-                }
-
                 if (nodeToRemove == root)
                 {
                     root = nodeToRemove.Right;
