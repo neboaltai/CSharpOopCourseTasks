@@ -4,13 +4,6 @@ namespace Temperature.Model
 {
     public class TemperatureConverter : ITemperatureConverter
     {
-        public IScale[] Scales { get; }
-
-        public TemperatureConverter(IScale[] scales)
-        {
-            Scales = scales;
-        }
-
         public double Convert(IScale inputScale, IScale outputScale, double degrees)
         {
             if (inputScale is Celsius)

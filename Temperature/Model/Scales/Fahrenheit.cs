@@ -2,6 +2,14 @@
 {
     class Fahrenheit : IScale
     {
+        public string Name
+        {
+            get
+            {
+                return "Fahrenheit";
+            }
+        }
+
         public double ConvertFromCelsius(double celsiusDegrees)
         {
             return celsiusDegrees * 9 / 5 + 32;

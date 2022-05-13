@@ -15,12 +15,12 @@ namespace Temperature
         {
             IScale[] scales = { new Celsius(), new Kelvin(), new Fahrenheit() };
 
-            ITemperatureConverter temperatureConverter = new TemperatureConverter(scales);
+            ITemperatureConverter temperatureConverter = new TemperatureConverter();
 
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm(temperatureConverter));
+            Application.Run(new MainForm(temperatureConverter, scales));
         }
     }
 }

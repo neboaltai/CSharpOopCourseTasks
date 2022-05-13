@@ -8,21 +8,28 @@ namespace Temperature
     {
         private readonly ITemperatureConverter temperatureConverter;
 
+        private readonly IScale[] scales;
+
         public MainForm()
         {
             InitializeComponent();
         }
 
-        public MainForm(ITemperatureConverter temperatureConverter) : this()
+        public MainForm(ITemperatureConverter temperatureConverter, IScale[] scales) : this()
         {
             this.temperatureConverter = temperatureConverter;
+
+            this.scales = scales;
         }
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            fromScaleList.Items.AddRange(temperatureConverter.Scales);
+            fromScaleList.Items.AddRange(scales);
 
-            toScaleList.Items.AddRange(temperatureConverter.Scales);
+            toScaleList.Items.AddRange(scales);
+
+            fromScaleList.DisplayMember = "Name";
+            toScaleList.DisplayMember = "Name";
 
             fromScaleList.SelectedIndex = 0;
             toScaleList.SelectedIndex = 0;
@@ -33,7 +40,7 @@ namespace Temperature
             try
             {
                 double temperature = Convert.ToDouble(enterTemperatureField.Text);
-                resultLabel.Text = temperatureConverter.Convert(fromScaleList.SelectedItem as IScale, toScaleList.SelectedItem as IScale, temperature).ToString() + " " + toScaleList.Text.Substring(0, 1);
+                resultLabel.Text = $"{temperatureConverter.Convert(fromScaleList.SelectedItem as IScale, toScaleList.SelectedItem as IScale, temperature):f02} {toScaleList.Text.Substring(0, 1)}";
             }
             catch (FormatException)
             {
@@ -43,20 +50,22 @@ namespace Temperature
 
         private void swapButton_Click(object sender, EventArgs e)
         {
-            string temp = fromScaleList.SelectedItem.ToString();
+            IScale scale = (IScale)fromScaleList.SelectedItem;
 
             fromScaleList.SelectedItem = toScaleList.SelectedItem;
 
-            toScaleList.SelectedItem = temp;
+            toScaleList.SelectedItem = scale;
         }
 
         private void fromScale_SelectedIndexChanged(object sender, EventArgs e)
         {
             enterTemperatureLabel.Text = "Enter temperature in " + fromScaleList.Text + ":";
 
+            IScale toScale = (IScale)toScaleList.SelectedItem;
+
             toScaleList.Items.Clear();
 
-            foreach (IScale scale in temperatureConverter.Scales)
+            foreach (IScale scale in scales)
             {
                 if (scale != fromScaleList.SelectedItem)
                 {
@@ -64,7 +73,7 @@ namespace Temperature
                 }
             }
 
-            toScaleList.SelectedIndex = 0;
+            toScaleList.SelectedItem = toScale;
         }
     }
 }
