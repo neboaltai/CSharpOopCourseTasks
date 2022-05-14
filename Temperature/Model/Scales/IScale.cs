@@ -1,4 +1,4 @@
-﻿namespace Temperature.Model
+﻿namespace Temperature.Model.Scales
 {
     public interface IScale
     {

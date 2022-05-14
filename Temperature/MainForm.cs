@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using Temperature.Model;
+using Temperature.Model.Scales;
 
 namespace Temperature
 {
@@ -73,7 +74,14 @@ namespace Temperature
                 }
             }
 
-            toScaleList.SelectedItem = toScale;
+            if (toScale != fromScaleList.SelectedItem)
+            {
+                toScaleList.SelectedItem = toScale;
+            }
+            else
+            {
+                toScaleList.SelectedIndex = 0;
+            }
         }
     }
 }

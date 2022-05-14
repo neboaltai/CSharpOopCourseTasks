@@ -13,7 +13,7 @@ namespace Temperature
         [STAThread]
         static void Main()
         {
-            IScale[] scales = { new Celsius(), new Kelvin(), new Fahrenheit() };
+            IScale[] scales = { new CelsiusScale(), new KelvinScale(), new FahrenheitScale() };
 
             ITemperatureConverter temperatureConverter = new TemperatureConverter();
 

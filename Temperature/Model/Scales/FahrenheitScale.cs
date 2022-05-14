@@ -1,14 +1,8 @@
 ﻿namespace Temperature.Model.Scales
 {
-    class Fahrenheit : IScale
+    class FahrenheitScale : IScale
     {
-        public string Name
-        {
-            get
-            {
-                return "Fahrenheit";
-            }
-        }
+        public string Name => "Fahrenheit";
 
         public double ConvertFromCelsius(double celsiusDegrees)
         {
