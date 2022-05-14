@@ -8,14 +8,9 @@
 
         public TreeNode<T> Right { get; set; }
 
-        public TreeNode(T data) : this(data, null, null) { }
-
-        public TreeNode(T data, TreeNode<T> left, TreeNode<T> right)
+        public TreeNode(T data)
         {
             Data = data;
-
-            Left = left;
-            Right = right;
         }
     }
 }

@@ -15,13 +15,14 @@ namespace TreeTask
 
         public BinarySearchTree(T data) : this(data, null) { }
 
-        public BinarySearchTree(IComparer<T> comparer) : this(default, comparer) { }
+        public BinarySearchTree(IComparer<T> comparer)
+        {
+            this.comparer = comparer;
+        }
 
-        public BinarySearchTree(T data, IComparer<T> comparer)
+        public BinarySearchTree(T data, IComparer<T> comparer) : this(comparer)
         {
             root = new TreeNode<T>(data);
-
-            this.comparer = comparer;
         }
 
         private int Compare(T data1, T data2)
@@ -99,9 +100,9 @@ namespace TreeTask
 
             TreeNode<T> currentNode = root;
 
-            for (int sign; ;)
+            while (true)
             {
-                sign = Compare(data, currentNode.Data);
+                int sign = Compare(data, currentNode.Data);
 
                 if (sign == 0)
                 {
@@ -139,9 +140,9 @@ namespace TreeTask
             TreeNode<T> nodeToRemove = root;
             TreeNode<T> nodeToRemoveParent = null;
 
-            for (int sign; ;)
+            while (true)
             {
-                sign = Compare(data, nodeToRemove.Data);
+                int sign = Compare(data, nodeToRemove.Data);
 
                 if (sign < 0)
                 {
@@ -268,9 +269,9 @@ namespace TreeTask
 
             queue.Enqueue(root);
 
-            for (TreeNode<T> node; queue.Count != 0;)
+            while (queue.Count != 0)
             {
-                node = queue.Dequeue();
+                TreeNode<T> node = queue.Dequeue();
 
                 action(node.Data);
 
@@ -297,9 +298,9 @@ namespace TreeTask
 
             stack.Push(root);
 
-            for (TreeNode<T> node; stack.Count != 0;)
+            while (stack.Count != 0)
             {
-                node = stack.Pop();
+                TreeNode<T> node = stack.Pop();
 
                 action(node.Data);
 
