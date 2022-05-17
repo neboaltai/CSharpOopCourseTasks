@@ -7,6 +7,23 @@ namespace TreeTask
     {
         private readonly IComparer<T> comparer;
 
+        private readonly Func<T, T, int> comparasion = (T data1, T data2) =>
+        {
+            if (data1 is null)
+            {
+                return data2 is null ? 0 : -1;
+            }
+
+            IComparable<T> comparableData = data1 as IComparable<T>;
+
+            if (comparableData is null)
+            {
+                throw new InvalidOperationException("Data cannot be compared");
+            }
+
+            return comparableData.CompareTo(data2);
+        };
+
         private TreeNode<T> root;
 
         public int Count { get; private set; }
@@ -18,33 +35,24 @@ namespace TreeTask
         public BinarySearchTree(IComparer<T> comparer)
         {
             this.comparer = comparer;
+
+            if (comparer != null)
+            {
+                comparasion = (T data1, T data2) =>
+                {
+                    if (data1 is null)
+                    {
+                        return data2 is null ? 0 : -1;
+                    }
+
+                    return this.comparer.Compare(data1, data2);
+                };
+            }
         }
 
         public BinarySearchTree(T data, IComparer<T> comparer) : this(comparer)
         {
             root = new TreeNode<T>(data);
-        }
-
-        private int Compare(T data1, T data2)
-        {
-            if (data1 is null)
-            {
-                return data2 is null ? 0 : -1;
-            }
-
-            if (comparer != null)
-            {
-                return comparer.Compare(data1, data2);
-            }
-
-            IComparable<T> comparableData = data1 as IComparable<T>;
-
-            if (comparableData is null)
-            {
-                throw new InvalidOperationException("Data cannot be compared");
-            }
-
-            return comparableData.CompareTo(data2);
         }
 
         public void Add(T data)
@@ -62,7 +70,7 @@ namespace TreeTask
 
             while (true)
             {
-                if (Compare(data, currentNode.Data) < 0)
+                if (comparasion(data, currentNode.Data) < 0)
                 {
                     if (currentNode.Left is null)
                     {
@@ -102,7 +110,7 @@ namespace TreeTask
 
             while (true)
             {
-                int sign = Compare(data, currentNode.Data);
+                int sign = comparasion(data, currentNode.Data);
 
                 if (sign == 0)
                 {
@@ -142,7 +150,7 @@ namespace TreeTask
 
             while (true)
             {
-                int sign = Compare(data, nodeToRemove.Data);
+                int sign = comparasion(data, nodeToRemove.Data);
 
                 if (sign < 0)
                 {
