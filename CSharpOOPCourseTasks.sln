@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31911.196
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35527.113 d17.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RangeTask", "RangeTask\RangeTask.csproj", "{79C4F32F-914E-4DA1-9F8C-0B0F88EAE11C}"
 EndProject
@@ -26,6 +26,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TreeTask", "TreeTask\TreeTask.csproj", "{B466ECD0-8616-43B6-B7A6-80F0B158815E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Temperature", "Temperature\Temperature.csproj", "{77531AC5-1223-41F4-A94B-2D0B545A3D1B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProducerConsumer", "ProducerConsumer\ProducerConsumer.csproj", "{CFF827D3-DE2E-4C30-87FC-EAFDADB7A21D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -81,6 +83,10 @@ Global
 		{77531AC5-1223-41F4-A94B-2D0B545A3D1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{77531AC5-1223-41F4-A94B-2D0B545A3D1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{77531AC5-1223-41F4-A94B-2D0B545A3D1B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CFF827D3-DE2E-4C30-87FC-EAFDADB7A21D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CFF827D3-DE2E-4C30-87FC-EAFDADB7A21D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CFF827D3-DE2E-4C30-87FC-EAFDADB7A21D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CFF827D3-DE2E-4C30-87FC-EAFDADB7A21D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
